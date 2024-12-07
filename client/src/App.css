@@ -1,0 +1,98 @@
+.App {
+  text-align: center;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.App-logo {
+  height: 200px;
+  width: 200px;
+  margin-bottom: 2rem;
+  animation: App-logo-pulse infinite 2s ease-in-out;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+  transition: transform 0.3s ease;
+}
+
+.App-logo:hover {
+  transform: scale(1.1);
+}
+
+@keyframes App-logo-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.App-header {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 3rem;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.App-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+
+.App-link {
+  color: #61dafb;
+  text-decoration: none;
+  font-weight: bold;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.App-link:hover {
+  color: #ffffff;
+}
+
+.App-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #61dafb;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.App-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .App-logo {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .App-header {
+    padding: 2rem;
+    width: 95%;
+  }
+
+  .App-title {
+    font-size: 2rem;
+  }
+}
