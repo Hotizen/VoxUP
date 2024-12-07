@@ -61,7 +61,7 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button onClick={isSignUp ? handleSignUp : handleLogin}>
+        <button className="main-button" onClick={isSignUp ? handleSignUp : handleLogin}>
           {isSignUp ? 'Sign Up' : 'Login'}
         </button>
 

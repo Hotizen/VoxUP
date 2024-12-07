@@ -1,67 +1,116 @@
 /* Navbar Container */
 .navbar {
-    background-color: #333;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .navbar .navbar-brand img {
-    width: 150px; /* Adjust logo size */
-  }
-  
-  .navbar-nav {
-    margin-left: auto;
-  }
-  
-  .nav-item {
-    margin-left: 20px;
-  }
-  
-  .navbar-toggler {
-    border-color: #fff;
-  }
-  
-  .navbar-toggler-icon {
-    background-color: #fff;
-  }
-  
-  .nav-item .nav-link {
-    color: #fff !important;
-    font-size: 1rem;
-    font-weight: 500;
-  }
-  
-  .nav-item .nav-link:hover {
-    color: #ff6600 !important;
-  }
-  
-  .nav-item .dropdown-menu {
-    background-color: #333;
-    border-radius: 5px;
-  }
-  
-  .nav-item .dropdown-menu .dropdown-item {
-    color: #fff;
-    font-size: 1rem;
-  }
-  
-  .nav-item .dropdown-menu .dropdown-item:hover {
-    background-color: #444;
-    color: #ff6600;
-  }
-  
-  .navbar .nav-link.active {
-    color: #ff6600 !important;
-  }
-  
-  .navbar-dark .navbar-nav .nav-link {
-    color: rgba(255, 255, 255, 0.9);
-  }
-  
-  .navbar-dark .navbar-nav .nav-link:hover {
-    color: rgba(255, 255, 255, 1);
-  }
-  
-  .navbar-dark .navbar-toggler-icon {
-    background-color: rgba(255, 255, 255, 0.7);
-  }
-  
+  background-color: #333;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem; /* Reduce vertical padding */
+  max-height: 100px;
+}
+
+/* Navbar Brand Logo */
+.navbar .navbar-brand img {
+  width: 120px; /* Adjust logo size */
+  max-height: 40px; /* Restrict logo height */
+}
+
+/* Navbar Navigation */
+.navbar-nav {
+  margin-left: auto;
+}
+
+.nav-item {
+  margin-left: 20px;
+}
+
+/* Navbar Toggler */
+.navbar-toggler {
+  border-color: #fff;
+}
+
+.navbar-toggler-icon {
+  background-color: #fff;
+}
+
+/* Navbar Links */
+.nav-item .nav-link {
+  color: #fff !important;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem; /* Reduce vertical padding */
+}
+
+.nav-item .nav-link:hover {
+  color: #5ea1e9 !important;
+}
+
+/* Dropdown Menu */
+.nav-item .dropdown-menu {
+  background-color: #333;
+  border-radius: 5px;
+}
+
+.nav-item .dropdown-menu .dropdown-item {
+  color: #fff;
+  font-size: 1rem;
+}
+
+.nav-item .dropdown-menu .dropdown-item:hover {
+  background-color: #444;
+  color: #ff6600;
+}
+
+/* Active Navbar Link */
+.navbar .nav-link.active {
+  color: #0077ff !important;
+}
+
+/* Navbar Link Colors (Dark Mode) */
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.navbar-dark .navbar-toggler-icon {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Highlighted Buttons */
+.btn-highlight {
+  background-color: #5445c4; /* Bright orange */
+  color: #ffffff; /* White text */
+  border: 2px solid #ffffff; /* White border for better contrast */
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-highlight:hover {
+  background-color: #4974da; /* Slightly darker shade on hover */
+  transform: scale(1.05); /* Subtle zoom effect */
+  color: #ffffff;
+}
+
+.btn-highlight:focus {
+  outline: none;
+  box-shadow: 0 0 5px 2px rgba(80, 97, 220, 0.6); /* Glow effect on focus */
+}
+
+/* Style for Login/Sign In Button */
+.navbar .login-btn {
+  background-color: #007bff;
+  color: white !important;
+  border-radius: 5px;
+  padding: 5px 15px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar .login-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+  text-decoration: none;
+}

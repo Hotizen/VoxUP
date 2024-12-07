@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import VoiceControl from './VoiceControl'; // Import the VoiceControl component
 import './HomeScreen.css';
+import HeroSection from './HeroSection';
+import ThreeColumnSection from './ThreeColumnSection';
+import Footer from './Footer';
 
 const HomeScreen = () => {
   const navigate = useNavigate();
@@ -29,11 +32,13 @@ const HomeScreen = () => {
   return (
     <div>
       <Navbar />
+      <HeroSection />
+      
       <div className="container text-center mt-4">
         <h2>VoxUp - Learn Coding with Voice Commands</h2>
 
         <p>{feedback}</p>
-
+        <ThreeColumnSection />
         {/* Button to start quiz */}
         <button className="btn btn-primary mt-4" onClick={handleQuizStart}>
           Find What's Right for You
@@ -42,6 +47,7 @@ const HomeScreen = () => {
         {/* Voice Control Component */}
         <VoiceControl setFeedback={setFeedback} /> {/* Pass setFeedback here */}
 
+        {/* Card Section */}
         <div className="row mt-5">
           {/* Card for Lessons */}
           <div className="col-md-4">
@@ -83,6 +89,7 @@ const HomeScreen = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
