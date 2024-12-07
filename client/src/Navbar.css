@@ -1,0 +1,67 @@
+/* Navbar Container */
+.navbar {
+    background-color: #333;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar .navbar-brand img {
+    width: 150px; /* Adjust logo size */
+  }
+  
+  .navbar-nav {
+    margin-left: auto;
+  }
+  
+  .nav-item {
+    margin-left: 20px;
+  }
+  
+  .navbar-toggler {
+    border-color: #fff;
+  }
+  
+  .navbar-toggler-icon {
+    background-color: #fff;
+  }
+  
+  .nav-item .nav-link {
+    color: #fff !important;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  
+  .nav-item .nav-link:hover {
+    color: #ff6600 !important;
+  }
+  
+  .nav-item .dropdown-menu {
+    background-color: #333;
+    border-radius: 5px;
+  }
+  
+  .nav-item .dropdown-menu .dropdown-item {
+    color: #fff;
+    font-size: 1rem;
+  }
+  
+  .nav-item .dropdown-menu .dropdown-item:hover {
+    background-color: #444;
+    color: #ff6600;
+  }
+  
+  .navbar .nav-link.active {
+    color: #ff6600 !important;
+  }
+  
+  .navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .navbar-dark .navbar-nav .nav-link:hover {
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  .navbar-dark .navbar-toggler-icon {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  
