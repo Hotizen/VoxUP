@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'; // Import React at the beginning
 
 // LessonCard component (reusable card with props)
 const LessonCard = ({ title, description, onStartLesson }) => (
-    <div className="lesson-card" onClick={onStartLesson}>
-        <h3>{title}</h3>
-        <p>{description}</p>
-        <button className="btn btn-primary">Start Lesson</button>
-    </div>
+  <div className="lesson-card" onClick={onStartLesson}>
+    <h3>{title}</h3>
+    <p>{description}</p>
+    <button className="btn btn-primary">Start Lesson</button>
+  </div>
 );
 
 // LessonCards component (renders multiple LessonCards)
@@ -34,4 +34,4 @@ const LessonCards = () => {
   );
 };
 
-export default LessonCard;
+export default LessonCard; // Export only the LessonCard component

@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './Navbar.css';
 
-const Navbar = () => {
+const Navbar = ({ toggleVoiceControl, isListening }) => {
+  const [theme, setTheme] = useState('light'); // Theme state
+
+  // Toggle between Light and Dark themes
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    document.body.className = newTheme === 'dark' ? 'dark-mode' : ''; // Apply the class to the <body>
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
-        <Link className="navbar-brand" to="/">Coding Learning</Link>
+        <Link className="navbar-brand" to="/home">
+          <img src="/path-to-logo/logo.png" alt="VoxUp Logo" width="120" />
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -23,16 +35,22 @@ const Navbar = () => {
               <Link className="nav-link" to="/">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/lessons">Lessons</Link>
+              <Link className="nav-link" to="/about">About</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/about">About</Link>
+              <Link className="nav-link" to="/login">Login/Sign In</Link>
+            </li>
+            
+            <li className="nav-item">
+              <button className="nav-link btn btn-link" onClick={toggleTheme}>
+                {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+              </button>
             </li>
           </ul>
         </div>
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;

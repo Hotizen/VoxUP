@@ -1,4 +1,5 @@
 import React from 'react';
+import './LessonGrid.css';
 import { useParams } from 'react-router-dom';
 
 const lessons = [
