@@ -1,6 +1,7 @@
 import React from 'react';
 import './HeroSection.css';
 import { useNavigate } from 'react-router-dom';
+import heroimg from './images/pexels-paras-4218883.jpg';
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const HeroSection = () => {
         </button>
       </div>
       <div className="hero-right">
-        <img src='C:\Users\eo\coding-tutor\client\public\pexels-paras-4218883.jpg' alt="Coding" className="hero-image" />
+        <img src={heroimg} alt="Coding" className="hero-image" />
       </div>
     </div>
   );

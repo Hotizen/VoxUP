@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import logo from './images/voxup-logo.png';
 
 const Navbar = ({ toggleVoiceControl, isListening }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
-        <Link className="navbar-brand" to="/home">
-          <img src="C:\Users\eo\coding-tutor\client\public\voxup-logo.png" alt="VoxUp Logo" width="120" />
+        <Link className="navbar-brand" to="/about">
+          <img src={logo} alt="VoxUp Logo" width="120" />
         </Link>
         <button
           className="navbar-toggler"
