@@ -8,6 +8,11 @@ import LessonDetail from './LessonDetail';
 import Quiz from './Quiz'; // Added quiz component
 import About from './About';  // About page component
 import Footer from './Footer';
+import ThreeColumnSection from './ThreeColumnSection'; // Adjusted path
+import VoiceLearning from './VoiceLearning'; // Adjusted path
+import GamifiedLearning from './GamifiedLearning'; // Adjusted path
+import PersonalizedLessons from './PersonalizedLessons'; // Adjusted path
+
 
 const App = () => {
   return (
@@ -20,6 +25,10 @@ const App = () => {
         <Route path="/lesson/:id" element={<LessonDetail />} />
         <Route path="/personal-home" element={<PersonalHome />} />
         <Route path="/quiz" element={<Quiz />} />
+        <Route path="/" element={<ThreeColumnSection />} />
+        <Route path="/voice-learning" element={<VoiceLearning />} />
+        <Route path="/gamified-learning" element={<GamifiedLearning />} />
+        <Route path="/personalized-lessons" element={<PersonalizedLessons />} />
       </Routes>
     </Router>
   );

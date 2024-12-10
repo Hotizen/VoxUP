@@ -1,0 +1,44 @@
+/* General Container Styling */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 80vh; /* Center content vertically */
+    padding: 2rem;
+    background-color: #f9f9f9;
+  }
+  
+  /* Title Styling */
+  .page-container h2 {
+    font-size: 2rem;
+    color: #007bff;
+    margin-bottom: 1rem;
+  }
+  
+  /* Paragraph Styling */
+  .page-container p {
+    font-size: 1.2rem;
+    color: #555;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+  
+  /* Button to Go Back */
+  .back-button {
+    margin-top: 2rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .back-button:hover {
+    background-color: #0056b3;
+  }
+  
