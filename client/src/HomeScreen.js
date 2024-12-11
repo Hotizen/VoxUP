@@ -44,8 +44,8 @@ const HomeScreen = () => {
           Find What's Right for You
         </button>
 
-        {/* Voice Control Component */}
-        <VoiceControl setFeedback={setFeedback} /> {/* Pass setFeedback here */}
+        
+        <VoiceControl setFeedback={setFeedback} /> 
 
         {/* Card Section */}
         <div className="row mt-5">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Login';
 import HomeScreen from './HomeScreen'; // HomeScreen includes HeroSection
@@ -12,9 +12,14 @@ import ThreeColumnSection from './ThreeColumnSection'; // Adjusted path
 import VoiceLearning from './VoiceLearning'; // Adjusted path
 import GamifiedLearning from './GamifiedLearning'; // Adjusted path
 import PersonalizedLessons from './PersonalizedLessons'; // Adjusted path
+import LessonScreen from './LessonScreen';
+import IntroToPython from './IntroToPython';
+import PythonBasics from './PythonBasics';
+import VoiceControl from './VoiceControl';
 
 
 const App = () => {
+  const [feedback, setFeedback] = useState('');
   return (
     <Router>
       <Routes>       
@@ -22,14 +27,19 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/lessons" element={<LessonGrid />} />
-        <Route path="/lesson/:id" element={<LessonDetail />} />
+        <Route path="/lesson-detail/:id" element={<LessonDetail />} />
+        <Route path="/lesson-screen/:lessonTitle" element={<LessonScreen />} />
         <Route path="/personal-home" element={<PersonalHome />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/" element={<ThreeColumnSection />} />
         <Route path="/voice-learning" element={<VoiceLearning />} />
         <Route path="/gamified-learning" element={<GamifiedLearning />} />
         <Route path="/personalized-lessons" element={<PersonalizedLessons />} />
+        <Route path="/python-basics" element={<PythonBasics />} />
+        <Route path="/intro-to-python" element={<IntroToPython />} />
+        <Route path="/" element={<Quiz />} />
       </Routes>
+      <VoiceControl setFeedback={setFeedback} />
     </Router>
   );
 };
