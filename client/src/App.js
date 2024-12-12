@@ -7,7 +7,7 @@ import LessonGrid from './LessonGrid';
 import LessonDetail from './LessonDetail';
 import Quiz from './Quiz'; // Added quiz component
 import About from './About';  // About page component
-import Footer from './Footer';
+import Footer from './Footer'; // If you want to use the footer
 import ThreeColumnSection from './ThreeColumnSection'; // Adjusted path
 import VoiceLearning from './VoiceLearning'; // Adjusted path
 import GamifiedLearning from './GamifiedLearning'; // Adjusted path
@@ -19,12 +19,13 @@ import VoiceControl from './VoiceControl';
 import ProgressPage from './ProgressPage';
 import Leaderboard from './Leaderboard';
 
-
 const App = () => {
+  // Use state to manage feedback for VoiceControl
   const [feedback, setFeedback] = useState('');
+
   return (
     <Router>
-      <Routes>       
+      <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
@@ -33,7 +34,7 @@ const App = () => {
         <Route path="/lesson-screen/:lessonTitle" element={<LessonScreen />} />
         <Route path="/personal-home" element={<PersonalHome />} />
         <Route path="/quiz" element={<Quiz />} />
-        <Route path="/" element={<ThreeColumnSection />} />
+        <Route path="/three-column-section" element={<ThreeColumnSection />} />
         <Route path="/voice-learning" element={<VoiceLearning />} />
         <Route path="/progress" element={<ProgressPage />} />
         <Route path="/gamified-learning" element={<GamifiedLearning />} />
@@ -41,10 +42,10 @@ const App = () => {
         <Route path="/python-basics" element={<PythonBasics />} />
         <Route path="/intro-to-python" element={<IntroToPython />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
-        <Route path="/" element={<Quiz />} />
-        
       </Routes>
-      <VoiceControl setFeedback={setFeedback} />
+
+      <Footer /> {/* Add Footer below Routes */}
+      <VoiceControl setFeedback={setFeedback} /> {/* Pass setFeedback to VoiceControl */}
     </Router>
   );
 };

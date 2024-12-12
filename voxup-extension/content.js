@@ -1,4 +1,3 @@
-// content.js
 const widgetDiv = document.createElement('div');
 widgetDiv.id = 'plugin-widget';
 widgetDiv.style.position = 'fixed';
@@ -11,11 +10,11 @@ widgetDiv.style.backgroundColor = '#fff';
 widgetDiv.style.zIndex = '9999';
 widgetDiv.style.overflow = 'auto';
 
-// Embed iframe with your lessons or feature
+
 const iframe = document.createElement('iframe');
-iframe.src = 'https://your-website.com/embed'; // URL of the embedded feature
-iframe.style.width = '100%';
-iframe.style.height = '100%';
+iframe.src = 'http://localhost:3000/'; 
+iframe.style.width = '90%';
+iframe.style.height = '80%';
 iframe.style.border = 'none';
 
 widgetDiv.appendChild(iframe);
