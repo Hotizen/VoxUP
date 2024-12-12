@@ -168,7 +168,7 @@ const DragAndDropLesson = () => {
       </div>
       {message && <div className="success-message">{message}</div>}
       <button className="btn btn-success mt-3" onClick={loadNextLesson}>
-        Next Lesson
+        Next Challenge
       </button>
     </div>
   );
