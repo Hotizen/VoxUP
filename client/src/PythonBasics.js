@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './PythonBasics.css';
+import DragAndDropLesson from './DragAndDropLesson'; // Import Drag-and-Drop Lesson
 
 const PythonBasics = () => {
   const [code, setCode] = useState('');
@@ -28,16 +29,22 @@ const PythonBasics = () => {
 
   const handleRunCode = async () => {
     try {
+      const escapedCode = code.replace(/"/g, '\\"').replace(/\n/g, '\\n');
       const response = await fetch('http://localhost:5000/run-python', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code: escapedCode }),
       });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
       const data = await response.json();
-      setOutput(data.result);
-      setPoints((prev) => prev + 10); // Increment points for running code
+      setOutput(data.result); // Display output from backend
+      setPoints((prev) => prev + 10); // Increment points on successful execution
     } catch (error) {
-      setOutput('Error: Unable to process code.');
+      setOutput(`Error: ${error.message}`);
     }
   };
 
@@ -94,6 +101,11 @@ const PythonBasics = () => {
           <h3>Output:</h3>
           <p>{output}</p>
         </div>
+      </section>
+
+      <section className="drag-and-drop">
+        <h2>Arrange the Code Blocks in Correct Order</h2>
+        <DragAndDropLesson /> {/* Add Drag and Drop Lesson */}
       </section>
 
       {/* Footer Section */}

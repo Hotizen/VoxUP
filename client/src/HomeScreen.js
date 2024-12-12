@@ -6,6 +6,7 @@ import './HomeScreen.css';
 import HeroSection from './HeroSection';
 import ThreeColumnSection from './ThreeColumnSection';
 import Footer from './Footer';
+import ProgressCard from './ProgressCard';
 
 const HomeScreen = () => {
   const navigate = useNavigate();
@@ -28,6 +29,10 @@ const HomeScreen = () => {
   const handleQuizStart = () => {
     navigate('/quiz');
   };
+  const [progressData, setProgressData] = useState({
+    labels: ['Python Basics', 'React Basics', 'JavaScript Essentials'],
+    values: [80, 60, 30], // Initial progress
+  });
 
   return (
     <div>
@@ -71,6 +76,7 @@ const HomeScreen = () => {
                 <button className="btn btn-primary" onClick={() => navigate('/progress')}>
                   View Progress
                 </button>
+                <ProgressCard progressData={progressData} />
               </div>
             </div>
           </div>

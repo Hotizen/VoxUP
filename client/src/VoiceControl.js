@@ -4,6 +4,7 @@ import './VoiceControl.css'; // Import CSS
 
 const VoiceControl = ({ setFeedback }) => {
   const [isListening, setIsListening] = useState(false);
+  const [currentPage, setCurrentPage] = useState('home'); // Track the current page
   const navigate = useNavigate();
   const [points, setPoints] = useState(0);
   const [streak, setStreak] = useState(1);
@@ -22,86 +23,87 @@ const VoiceControl = ({ setFeedback }) => {
 
   recognition.onresult = function (event) {
     const transcript = event.results[0][0].transcript;
-    console.log("You said: ", transcript);
+    console.log('You said: ', transcript);
     setFeedback(`You said: ${transcript}`);
     handleVoiceCommand(transcript);
   };
 
   const handleVoiceCommand = (command) => {
     const lowerCommand = command.toLowerCase();
-  
-    if (lowerCommand.includes('start lesson')) {
-      setFeedback('Starting lesson...');
-      navigate('/lessons');
-    } else if (lowerCommand.includes('go to home')) {
+
+    // Global Command: Go to Home
+    if (lowerCommand.includes('go to home')) {
       setFeedback('Navigating to Home...');
       navigate('/');
-    } else if (lowerCommand.includes('sign in') || lowerCommand.includes('login')) {
-      setFeedback('Opening Login page...');
-      navigate('/login');
-    } else if (lowerCommand.includes('go to about')) {
-      setFeedback('Navigating to About page...');
-      navigate('/about');
-    } else if (lowerCommand.includes('start python basics')|| lowerCommand.includes('continue')) {
-      setFeedback('Opening Python basics...');
-      navigate('/lessons/python-basics');
-    } else if (lowerCommand.includes('go to profile')) {
-      setFeedback('Opening profile page...');
-      navigate('/profile');
-    } else if (lowerCommand.includes('open settings')) {
-      setFeedback('Opening settings...');
-      navigate('/settings');
-    } else if (lowerCommand.includes('show leaderboard')) {
-      setFeedback('Opening leaderboard...');
-      navigate('/leaderboard');
-    } else if (lowerCommand.includes('view badges')) {
-      setFeedback('Opening badges section...');
-      navigate('/badges');
-    } else if (lowerCommand.includes('go to progress')) {
-      setFeedback('Opening progress page...');
-      navigate('/progress');
-    } else if (lowerCommand.includes('next lesson')) {
-      setFeedback('Moving to the next lesson...');
-      // Logic to navigate to the next lesson
-    } else if (lowerCommand.includes('previous lesson')) {
-      setFeedback('Returning to the previous lesson...');
-      // Logic to navigate to the previous lesson
-    } else if (lowerCommand.includes('run code')) {
-      setFeedback('Running your code...');
-      const code = document.getElementById('compiler-box').value;
-  fetch('http://localhost:5000/run-python', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ code }),
-  })
-    .then((response) => response.json())
-    .then((data) => setFeedback(`Output: ${data.result}`))
-    .catch(() => setFeedback('Error running the code.'));
-    } else if (lowerCommand.includes('clear code')) {
-      setFeedback('Clearing your code...');
-      document.getElementById('compiler-box').value = '';
-    } else if (lowerCommand.includes('reset compiler')) {
-      setFeedback('Resetting compiler...');
-      // Trigger compiler reset logic
-    } else if (lowerCommand.includes('log out')) {
-      setFeedback('Logging out...');
-    } else if (lowerCommand.includes('show my points')) {
-      setFeedback('Displaying your points...');
-      setFeedback(`You have ${points} points.`);
-    } else if (lowerCommand.includes('check streak')) {
-      setFeedback('Displaying your streak...');
-      setFeedback(`You have a streak of ${streak} days.`);
-    } else if (lowerCommand.includes('check my level')) {
-      setFeedback('Displaying your level...');
-      setFeedback(`You are currently at level ${level}.`);
-    } else if (lowerCommand.includes('start quiz') || lowerCommand.includes('find what\'s right for me')) {
-      setFeedback('Starting the quiz...');
-      navigate('/quiz'); 
+      setCurrentPage('home'); // Update current page
+      return; // Exit to avoid processing further
+    }
+
+    if (currentPage === 'home') {
+      // Commands for the Home Page
+      if (lowerCommand.includes('start lesson') || lowerCommand.includes('explore lessons') || lowerCommand.includes('start listen') || lowerCommand.includes('explore lesson')) {
+        setFeedback('Navigating to lessons...');
+        navigate('/lessons');
+        setCurrentPage('lessons'); // Update current page
+      } else if (lowerCommand.includes('go to about')) {
+        setFeedback('Navigating to About page...');
+        navigate('/about');
+        setCurrentPage('about'); // Update current page
+      } else if (lowerCommand.includes('go to progress') || lowerCommand.includes('view progress')) {
+        setFeedback('Navigating to progress page...');
+        navigate('/progress');
+        setCurrentPage('progress');
+      } else if (lowerCommand.includes('go to leaderboard') || lowerCommand.includes('view leaderboard')) {
+        setFeedback('Navigating to Leaderboard page...');
+        navigate('/leaderboard');
+        setCurrentPage('leaderboard');
+      } else if (lowerCommand.includes('take quiz') || lowerCommand.includes('get started') || lowerCommand.includes('find whats right for you')) {
+        setFeedback('Navigating to Quiz page...');
+        navigate('/quiz');
+        setCurrentPage('quiz');
+      } else if (lowerCommand.includes('login') || lowerCommand.includes('sign in')) {
+        setFeedback('Navigating to Login page...');
+        navigate('/login');
+        setCurrentPage('login'); // Update current page
+      }
+    } else if (currentPage === 'lessons') {
+      // Commands for the Lessons Page
+      if (lowerCommand.includes('start lesson') || lowerCommand.includes('start listen') || lowerCommand.includes('start')) {
+        setFeedback('Starting Python Basics lesson...');
+        navigate('/intro-to-python');
+        setCurrentPage('intro-to-python'); // Update current page
+      }
+    } else if (currentPage === 'intro-to-python') {
+      if (lowerCommand.includes('start lesson') || lowerCommand.includes('start') || lowerCommand.includes('continue')) {
+        setFeedback('Starting Python Basics lesson...');
+        navigate('/python-basics');
+        setCurrentPage('python-basics'); // Update current page
+      }
+    } else if (currentPage === 'python-basics') {
+      // Commands for Python Basics Page
+      if (lowerCommand.includes('run code')) {
+        setFeedback('Running your code...');
+        const code = document.getElementById('monaco-editor').getValue(); // Monaco editor instance
+        fetch('http://localhost:5000/run-python', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code }),
+        })
+          .then((response) => response.json())
+          .then((data) => setFeedback(`Output: ${data.result}`))
+          .catch(() => setFeedback('Error running the code.'));
+      }
+
+      // Handle the clear code command for Monaco editor
+      else if (lowerCommand.includes('clear code')) {
+        setFeedback('Clearing your code...');
+        document.getElementById('monaco-editor').setValue(''); // Clear Monaco editor
+      }
     } else {
+      // Fallback Command
       setFeedback(`Command "${command}" not recognized.`);
     }
   };
-  
 
   const toggleVoiceControl = () => {
     setIsListening((prev) => !prev);

@@ -1,0 +1,59 @@
+.drag-and-drop-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  .drag-and-drop-container h3 {
+    font-size: 1.8rem;
+    color: #007bff;
+    margin-bottom: 20px;
+  }
+  
+  .drag-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .draggable-item {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    cursor: move;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .draggable-item:hover {
+    background-color: #f0f8ff;
+  }
+  
+  .draggable-item:active {
+    transform: scale(0.98);
+  }
+  
+  .success-message {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: green;
+    font-weight: bold;
+  }
+  
+  button {
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  

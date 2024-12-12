@@ -16,6 +16,8 @@ import LessonScreen from './LessonScreen';
 import IntroToPython from './IntroToPython';
 import PythonBasics from './PythonBasics';
 import VoiceControl from './VoiceControl';
+import ProgressPage from './ProgressPage';
+import Leaderboard from './Leaderboard';
 
 
 const App = () => {
@@ -33,11 +35,14 @@ const App = () => {
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/" element={<ThreeColumnSection />} />
         <Route path="/voice-learning" element={<VoiceLearning />} />
+        <Route path="/progress" element={<ProgressPage />} />
         <Route path="/gamified-learning" element={<GamifiedLearning />} />
         <Route path="/personalized-lessons" element={<PersonalizedLessons />} />
         <Route path="/python-basics" element={<PythonBasics />} />
         <Route path="/intro-to-python" element={<IntroToPython />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/" element={<Quiz />} />
+        
       </Routes>
       <VoiceControl setFeedback={setFeedback} />
     </Router>

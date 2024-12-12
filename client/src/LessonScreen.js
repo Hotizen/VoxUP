@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import './LessonScreen.css';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import CodeEditor from './CodeEditor'; // Import Monaco editor component
+import './LessonScreen.css';
 
 const LessonScreen = () => {
   const { lessonTitle } = useParams();
@@ -21,16 +22,19 @@ const LessonScreen = () => {
     }
   };
 
+  // Optional: Fetch lesson content based on lessonTitle (if applicable)
+  useEffect(() => {
+    // Code to fetch lesson content based on lessonTitle
+    // This could be used to pre-populate the code editor with lesson code
+  }, [lessonTitle]); // Dependency array for useEffect
+
   return (
     <div className="lesson-screen">
       <h1>{lessonTitle}</h1>
       <p>Learn by practicing Python programming.</p>
 
-      <textarea
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
-        placeholder="Write your Python code here..."
-      ></textarea>
+      {/* Use CodeEditor component for a more advanced editing experience */}
+      <CodeEditor value={code} onChange={setCode} />
 
       <button onClick={handleRunCode}>Run Code</button>
 
