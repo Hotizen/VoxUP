@@ -4,7 +4,7 @@ import axios from "axios";
 const Compiler = () => {
   const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
-
+  
   // Function to run Python code
   const runCode = async () => {
     try {
@@ -23,28 +23,42 @@ const Compiler = () => {
     }
   };
 
+  const [isListening, setIsListening] = useState(false); // Track listening state
+
   // Function to handle speech recognition (Voice Input)
   const startListening = () => {
-    const recognition = new window.webkitSpeechRecognition() || new window.SpeechRecognition();
-    recognition.lang = "en-US"; // Set recognition language
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "en-US"; 
+    recognition.continuous = false; // Stop after one sentence
+
+    setIsListening(true);
     recognition.start();
 
     recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setCode((prev) => prev + "\n" + transcript); // Append spoken text to the existing code
+        const transcript = event.results[0][0].transcript;
+        setCode((prev) => prev + (prev ? "\n" : "") + transcript); // Append smartly
     };
 
     recognition.onerror = (event) => {
-      console.error("Speech Recognition Error:", event.error);
+        console.error("Speech Recognition Error:", event.error);
+    };
+
+    recognition.onend = () => {
+        setIsListening(false); // Stop listening automatically
     };
   };
 
   // Function to read the output aloud (Text-to-Speech)
   const speakOutput = (text) => {
+    if (!text) return;
     const synth = window.speechSynthesis;
     const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1; // Normal speed
+    utterance.pitch = 1; // Normal pitch
+    utterance.volume = 1; // Full volume
     synth.speak(utterance);
   };
+
 
   return (
     <div>
@@ -59,7 +73,10 @@ const Compiler = () => {
       />
       
       <br />
-      <button onClick={startListening}>🎤 Speak Code</button>
+      <button onClick={startListening} disabled={isListening}>
+          🎤 {isListening ? "Listening..." : "Speak Code"}
+      </button>
+
       <button onClick={runCode}>▶️ Run Code</button>
 
       <div>

@@ -6,8 +6,8 @@ import PersonalHome from './Components/Homescreen/PHome/PersonalHome';
 import LessonGrid from './Features/Lessons/LessonGrid';
 import LessonDetail from './Features/Lessons/LessonDetail';
 import Quiz from './Features/Lessons/Quiz'; // Added quiz component
-import About from './About';  // About page component
-import Footer from './Components/Footer/Footer'; // If you want to use the footer
+import About from './Components/Navbar/About/About';
+// import Footer from './Components/Footer/Footer';
 import ThreeColumnSection from './Components/Threecolumns/ThreeColumnSection'; // Adjusted path
 import VoiceLearning from './Components/Threecolumns/VoiceLearning'; // Adjusted path
 import GamifiedLearning from './Components/Threecolumns/GamifiedLearning'; // Adjusted path
