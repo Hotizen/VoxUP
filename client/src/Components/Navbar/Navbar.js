@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-import logo from './images/voxup-logo.png';
+import logo from '../../Assets/images/voxup-logo.png';
 
 const Navbar = ({ toggleVoiceControl, isListening }) => {
   return (

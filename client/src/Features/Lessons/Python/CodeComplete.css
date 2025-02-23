@@ -1,0 +1,74 @@
+.code-complete-container {
+    padding: 30px;
+    background: linear-gradient(135deg, #f3f4f6, #e0f2f1);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  h3 {
+    font-size: 1.8rem;
+    color: #4a90e2;
+    font-weight: bold;
+  }
+  
+  .code-block {
+    background: #272822;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    text-align: left;
+    white-space: pre-wrap;
+    margin: 15px 0;
+  }
+  
+  .code-input {
+    width: 90%;
+    padding: 12px;
+    font-size: 1.2rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .check-btn, .show-btn {
+    background: linear-gradient(to right, #4a90e2, #007bff);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  .check-btn:hover, .show-btn:hover {
+    background: linear-gradient(to right, #007bff, #4a90e2);
+    transform: scale(1.05);
+  }
+  
+  .answer-box {
+    margin-top: 15px;
+    font-size: 1.4rem;
+    color: #2ecc71;
+    font-weight: bold;
+  }
+  
+  .message {
+    margin-top: 10px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #e74c3c;
+  }
+  

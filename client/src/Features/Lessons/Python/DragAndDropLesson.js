@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './DragAndDropLesson.css';
-import { shuffle } from 'lodash';
+// import { shuffle } from 'lodash';
 
 const DragAndDropLesson = () => {
   const [draggedItem, setDraggedItem] = useState(null);

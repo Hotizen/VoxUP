@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './ProgressPage.css';
 
 const ProgressPage = () => {
-  const [progressData, setProgressData] = useState({
+  const [progressData] = useState({
     labels: ['Python Basics', 'React Basics', 'JavaScript Essentials'],
     values: [80, 60, 30], // Initial progress values
   });

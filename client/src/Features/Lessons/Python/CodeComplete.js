@@ -1,0 +1,81 @@
+import React, { useState } from 'react';
+import './CodeComplete.css';
+
+const challenges = [
+  {
+    title: "Challenge 1: Print Hello World",
+    question: `# Print "Hello, World!" in Python\nprint(________)`,
+    answer: `"Hello, World!"`,
+  },
+  {
+    title: "Challenge 2: Sum of Two Numbers",
+    question: `# Add two numbers and print the result\na = 5\nb = 3\nsum = ________\nprint(sum)`,
+    answer: `a + b`,
+  },
+  {
+    title: "Challenge 3: If-Else Condition",
+    question: `# Check if a number is even or odd\nnum = 4\nif num % 2 == 0:\n    print(__________)\nelse:\n    print("Odd number")`,
+    answer: `"Even number"`,
+  },
+  {
+    title: "Challenge 4: Loop Through a List",
+    question: `# Print each item in a list\nfruits = ["apple", "banana", "cherry"]\nfor fruit in ________:\n    print(fruit)`,
+    answer: `fruits`,
+  },
+  {
+    title: "Challenge 5: Function Definition",
+    question: `# Define a function to return the square of a number\ndef square(n):\n    return ________\n\nprint(square(4))  # Output should be 16`,
+    answer: `n * n`,
+  },
+];
+
+const CodeComplete = ({ updateProgress }) => {
+  const [currentChallenge, setCurrentChallenge] = useState(0);
+  const [userInput, setUserInput] = useState('');
+  const [message, setMessage] = useState('');
+  const [showAnswer, setShowAnswer] = useState(false);
+
+  const handleCheckAnswer = () => {
+    if (userInput.trim() === challenges[currentChallenge].answer) {
+      setMessage("✅ Correct! Well done.");
+      setTimeout(() => {
+        setMessage("");
+        nextChallenge();
+      }, 1000);
+    } else {
+      setMessage("❌ Incorrect! Try again.");
+    }
+  };
+
+  const nextChallenge = () => {
+    if (currentChallenge < challenges.length - 1) {
+      setCurrentChallenge(currentChallenge + 1);
+      setUserInput('');
+      setShowAnswer(false);
+    } else {
+      setMessage("🎉 All Challenges Completed!");
+    }
+  };
+
+  return (
+    <div className="code-complete-container">
+      <h3>{challenges[currentChallenge].title}</h3>
+      <pre className="code-block">{challenges[currentChallenge].question}</pre>
+      <input
+        type="text"
+        value={userInput}
+        onChange={(e) => setUserInput(e.target.value)}
+        className="code-input"
+        placeholder="Type your answer here..."
+      />
+      <div className="buttons">
+        <button onClick={handleCheckAnswer} className="check-btn">Check Answer</button>
+        <button onClick={() => setShowAnswer(true)} className="show-btn">Show Answer</button>
+      </div>
+      {showAnswer && <div className="answer-box">✅ Correct Answer: {challenges[currentChallenge].answer}</div>}
+      {message && <div className="message">{message}</div>}
+    </div>
+  );
+};
+
+export default CodeComplete;

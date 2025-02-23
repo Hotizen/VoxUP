@@ -1,30 +1,38 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './Login';
-import HomeScreen from './HomeScreen'; // HomeScreen includes HeroSection
-import PersonalHome from './PersonalHome';
-import LessonGrid from './LessonGrid';
-import LessonDetail from './LessonDetail';
-import Quiz from './Quiz'; // Added quiz component
+import Login from './Components/Navbar/Login/Login';
+import HomeScreen from './Components/Homescreen/HomeScreen'; // HomeScreen includes HeroSection
+import PersonalHome from './Components/Homescreen/PHome/PersonalHome';
+import LessonGrid from './Features/Lessons/LessonGrid';
+import LessonDetail from './Features/Lessons/LessonDetail';
+import Quiz from './Features/Lessons/Quiz'; // Added quiz component
 import About from './About';  // About page component
-import Footer from './Footer'; // If you want to use the footer
-import ThreeColumnSection from './ThreeColumnSection'; // Adjusted path
-import VoiceLearning from './VoiceLearning'; // Adjusted path
-import GamifiedLearning from './GamifiedLearning'; // Adjusted path
-import PersonalizedLessons from './PersonalizedLessons'; // Adjusted path
-import LessonScreen from './LessonScreen';
-import IntroToPython from './IntroToPython';
-import PythonBasics from './PythonBasics';
-import VoiceControl from './VoiceControl';
-import ProgressPage from './ProgressPage';
-import Leaderboard from './Leaderboard';
+import Footer from './Components/Footer/Footer'; // If you want to use the footer
+import ThreeColumnSection from './Components/Threecolumns/ThreeColumnSection'; // Adjusted path
+import VoiceLearning from './Components/Threecolumns/VoiceLearning'; // Adjusted path
+import GamifiedLearning from './Components/Threecolumns/GamifiedLearning'; // Adjusted path
+import PersonalizedLessons from './Components/Threecolumns/PersonalizedLessons'; // Adjusted path
+import LessonScreen from './Features/Lessons/LessonScreen';
+import IntroToPython from './Features/Lessons/Python/IntroToPython';
+import PythonBasics from './Features/Lessons/Python/PythonBasics';
+import ProgressPage from './Features/Progress/ProgressPage';
+import Leaderboard from './Features/Leaderboard/Leaderboard';
+import Navbar from './Components/Navbar/Navbar';
+import VoiceControl from './Features/Voice learning/VoiceControl'; // Adjusted path
+import Compiler from './Features/Lessons/Python/Compiler';
+import Challenges from "./Features/Lessons/Python/Challenges";
+import DragAndDropLesson from './Features/Lessons/Python/DragAndDropLesson';  
+import CodeComplete from './Features/Lessons/Python/CodeComplete';
+
 
 const App = () => {
-  // Use state to manage feedback for VoiceControl
+  // // Use state to manage feedback for VoiceControl
   const [feedback, setFeedback] = useState('');
 
   return (
     <Router>
+      <Navbar/>
+      <VoiceControl setFeedback={setFeedback} /> 
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/login" element={<Login />} />
@@ -40,12 +48,16 @@ const App = () => {
         <Route path="/gamified-learning" element={<GamifiedLearning />} />
         <Route path="/personalized-lessons" element={<PersonalizedLessons />} />
         <Route path="/python-basics" element={<PythonBasics />} />
+        <Route path="/compiler" element={<Compiler />} />
+        <Route path="/challenges" element={<Challenges />} />
+        <Route path="/drag-and-drop" element={<DragAndDropLesson />} />
+        <Route path="/code-complete" element={<CodeComplete />} />
         <Route path="/intro-to-python" element={<IntroToPython />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
 
-      <Footer /> {/* Add Footer below Routes */}
-      <VoiceControl setFeedback={setFeedback} /> {/* Pass setFeedback to VoiceControl */}
+      {/* <Footer /> Add Footer below Routes */}
+      {/* <VoiceControl setFeedback={setFeedback} /> */}
     </Router>
   );
 };

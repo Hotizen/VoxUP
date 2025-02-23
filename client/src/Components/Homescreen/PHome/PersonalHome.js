@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from './Navbar'; // Keep navbar with other options
+import Navbar from '../../Navbar/Navbar'; // Keep navbar with other options
 import './PersonalHome.css';
 
 const PersonalHome = () => {

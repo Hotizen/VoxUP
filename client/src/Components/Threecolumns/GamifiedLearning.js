@@ -1,5 +1,5 @@
 import React from 'react';
-import './VoiceLearning.css';
+import './gamified.css';
 
 
 const GamifiedLearning = () => {

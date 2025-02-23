@@ -1,28 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from './Navbar';
-import VoiceControl from './VoiceControl'; // Import the VoiceControl component
-import './HomeScreen.css';
-import HeroSection from './HeroSection';
-import ThreeColumnSection from './ThreeColumnSection';
-import Footer from './Footer';
+// import Navbar from './Navbar';
+// import VoiceControl from '../../Features/Voice learning/VoiceControl'; 
+import HeroSection from '../Herosection/HeroSection';
+import ThreeColumnSection from '../Threecolumns/ThreeColumnSection';
+import Footer from '../Footer/Footer';
 
 const HomeScreen = () => {
   const navigate = useNavigate();
   const [feedback, setFeedback] = useState('');
-  const [progress, setProgress] = useState(50); // Example progress value
+  const [progress, setProgress] = useState(50); 
 
-  // Function to start a lesson
-  const startLesson = (lesson) => {
-    setFeedback(`Starting ${lesson} lesson...`);
-    setProgress(progress + 10); // Example progress increment
-  };
 
-  // Function to complete a lesson
-  const completeLesson = () => {
-    setFeedback('Lesson completed!');
-    setProgress(progress + 20); // Example progress increment
-  };
+
+  // const startLesson = (lesson) => {
+  //   setFeedback(`Starting ${lesson} lesson...`);
+  //   setProgress(progress + 10); 
+  // };
+
+  // const completeLesson = () => {
+  //   setFeedback('Lesson completed!');
+  //   setProgress(progress + 20); 
+  // };
 
   // Function to handle quiz navigation
   const handleQuizStart = () => {
@@ -31,7 +30,6 @@ const HomeScreen = () => {
 
   return (
     <div>
-      <Navbar />
       <HeroSection />
       
       <div className="container text-center mt-4">
@@ -45,7 +43,7 @@ const HomeScreen = () => {
         </button>
 
         
-        <VoiceControl setFeedback={setFeedback} /> 
+        {/* <VoiceControl setFeedback={setFeedback} />  */}
 
         {/* Card Section */}
         <div className="row mt-5">
@@ -89,8 +87,8 @@ const HomeScreen = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
-  );
+  ); 
 };
-
 export default HomeScreen;
