@@ -11,7 +11,6 @@ const authRoutes = require("./auth");
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/auth", authRoutes);
-app.use(express.json());
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
@@ -60,18 +59,15 @@ app.post("/generate-code", async (req, res) => {
 
   try {
     const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
       {
-        contents: [
-          { role: "user", parts: [{ text: `Convert this into Python code: ${prompt}` }] },
-        ],
+        contents: [{ role: "user", parts: [{ text: `Convert this into Python code: ${prompt}` }] }],
       }
     );
 
     const generatedCode =
-      response.data.candidates[0]?.content?.parts[0]?.text ||
-      "AI could not generate code.";
-      
+      response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "AI could not generate code.";
+
     res.json({ code: generatedCode });
   } catch (error) {
     console.error("AI Error:", error.response?.data || error.message);
@@ -81,22 +77,25 @@ app.post("/generate-code", async (req, res) => {
 
 // Route for AI-powered code autocompletion
 app.post("/autocomplete", async (req, res) => {
-    const userCode = req.body.code;
-  
-    // Call Gemini API for code completion
-    try {
-      const geminiResponse = await axios.post("https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=AIzaSyDnq4nCdC7cTX1Ff08yvaed7M45doRMGZU", {
-        contents: [{ role: "user", parts: [{ text: `Complete this Python code: ${userCode}` }] }]
-      });
-  
-      const aiSuggestion = geminiResponse.data.candidates[0].content.parts[0].text || "";
-      res.json({ suggestion: aiSuggestion.trim() });
-    } catch (error) {
-      console.error("Error getting AI completion:", error);
-      res.status(500).json({ error: "AI completion failed" });
-    }
+  const userCode = req.body.code;
+
+  try {
+    const geminiResponse = await axios.post(
+      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        contents: [{ role: "user", parts: [{ text: `Complete this Python code: ${userCode}` }] }],
+      }
+    );
+
+    const aiSuggestion =
+      geminiResponse.data?.candidates?.[0]?.content?.parts?.[0]?.text || "No completion available.";
+
+    res.json({ suggestion: aiSuggestion.trim() });
+  } catch (error) {
+    console.error("Error getting AI completion:", error.response?.data || error.message);
+    res.status(500).json({ error: "AI completion failed" });
+  }
 });
-  
 
 // Other API Routes
 app.get("/", (req, res) => {
