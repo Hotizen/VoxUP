@@ -91,3 +91,23 @@ input {
 .toggle-mode span:hover {
   text-decoration: underline;
 }
+
+/* Centering Guest Login Button Below Login */
+.guest-button {
+  background: #3498db;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%; /* Align with other buttons */
+  text-align: center;
+  display: block;
+  margin: 10px auto 0; /* Add space from login button */
+}
+
+.guest-button:hover {
+  background: #2980b9;
+}

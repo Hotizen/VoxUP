@@ -1,59 +1,56 @@
-import React, { useState } from 'react';
-import './Login.css';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import "./Login.css";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isSignUp, setIsSignUp] = useState(false); // Toggle between login and sign-up modes
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isSignUp, setIsSignUp] = useState(false);
 
-  // Validate email format
-  const isEmailValid = (email) => {
-    return email.endsWith('@gmail.com');
-  };
-
-  const handleLogin = () => {
-    if (!isEmailValid(email)) {
-      alert('Please use a valid @gmail.com email address.');
+  const handleAuth = async () => {
+    if (!username || !password) {
+      alert("Please fill in all fields.");
       return;
     }
-    if (email && password) {
-      alert('Login Successful!');
-      navigate('/personal-home'); // Redirect to personal home screen
-    } else {
-      alert('Please enter valid credentials.');
+  
+    try {
+      const endpoint = isSignUp ? "/auth/register" : "/auth/login";
+      const response = await axios.post(`http://localhost:5000${endpoint}`, {
+        username,
+        password,
+      });
+  
+      alert(response.data.message);
+  
+      if (!isSignUp) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("username", username); // ✅ Store username in localStorage
+        navigate("/profile");
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "Something went wrong!");
     }
   };
-
-  const handleSignUp = () => {
-    if (!isEmailValid(email)) {
-      alert('Please use a valid @gmail.com email address.');
-      return;
-    }
-    if (email && password) {
-      alert('Account created successfully!');
-      navigate('/personal-home'); // Redirect to personal home screen
-    } else {
-      alert('Please fill out all fields to create an account.');
-    }
-  };
-
-  const handleSocialLogin = (platform) => {
-    alert(`${platform} login is not available at the moment.`);
+  
+  // Guest Login Handler
+  const handleGuestLogin = () => {
+    alert("Logged in as Guest!");
+    navigate("/profile"); // Direct access to profile
   };
 
   return (
     <div className="login-container">
       <div className="login-card">
         <h1 className="login-title">
-          {isSignUp ? 'Create an Account' : 'Welcome Back!'}
+          {isSignUp ? "Create an Account" : "Welcome Back!"}
         </h1>
         <input
-          type="email"
-          placeholder="Enter Email (e.g., yourname@gmail.com)"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          placeholder="Enter Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <input
           type="password"
@@ -61,35 +58,19 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className="main-button" onClick={isSignUp ? handleSignUp : handleLogin}>
-          {isSignUp ? 'Sign Up' : 'Login'}
+        <button className="main-button" onClick={handleAuth}>
+          {isSignUp ? "Sign Up" : "Login"}
         </button>
 
-        <div className="social-login">
-          <p>Or log in with:</p>
-          <div className="social-icons">
-            <i
-              className="fab fa-google"
-              title="Google"
-              onClick={() => handleSocialLogin('Google')}
-            ></i>
-            <i
-              className="fab fa-facebook"
-              title="Facebook"
-              onClick={() => handleSocialLogin('Facebook')}
-            ></i>
-            <i
-              className="fab fa-twitter"
-              title="Twitter"
-              onClick={() => handleSocialLogin('Twitter')}
-            ></i>
-          </div>
-        </div>
+        {/* Guest Login Button Moved Below */}
+        <button className="guest-button" onClick={handleGuestLogin}>
+          Continue as Guest
+        </button>
 
         <p className="toggle-mode">
-          {isSignUp ? 'Already have an account?' : 'Don’t have an account?'}{' '}
+          {isSignUp ? "Already have an account?" : "Don’t have an account?"}{" "}
           <span onClick={() => setIsSignUp(!isSignUp)}>
-            {isSignUp ? 'Login' : 'Sign Up'}
+            {isSignUp ? "Login" : "Sign Up"}
           </span>
         </p>
       </div>

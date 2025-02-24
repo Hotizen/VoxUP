@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Components/Navbar/Login/Login';
 import HomeScreen from './Components/Homescreen/HomeScreen'; // HomeScreen includes HeroSection
-import PersonalHome from './Components/Homescreen/PHome/PersonalHome';
+import Profile from './Components/Profile/Profile';
 import LessonGrid from './Features/Lessons/LessonGrid';
 import LessonDetail from './Features/Lessons/LessonDetail';
 import Quiz from './Features/Lessons/Quiz'; // Added quiz component
@@ -40,7 +40,7 @@ const App = () => {
         <Route path="/lessons" element={<LessonGrid />} />
         <Route path="/lesson-detail/:id" element={<LessonDetail />} />
         <Route path="/lesson-screen/:lessonTitle" element={<LessonScreen />} />
-        <Route path="/personal-home" element={<PersonalHome />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/three-column-section" element={<ThreeColumnSection />} />
         <Route path="/voice-learning" element={<VoiceLearning />} />
