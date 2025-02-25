@@ -1,27 +1,76 @@
+/* Voice Control Container */
+.voice-controls-container {
+  position: fixed !important; /* Force fixed position with !important */
+  bottom: 20px !important;
+  right: 20px !important;
+  left: auto !important; /* Override any left positioning */
+  top: auto !important; /* Override any top positioning */
+  display: flex !important;
+  flex-direction: column !important; /* Keeps buttons stacked */
+  align-items: flex-end !important;
+  gap: 10px !important; /* Spacing between buttons */
+  z-index: 9999 !important; /* Ensures it's always visible */
+  pointer-events: auto !important; /* Ensure clicks are registered */
+  width: auto !important; /* Prevent width inheritance issues */
+  max-width: 300px !important; /* Set a reasonable max width */
+  transform: none !important; /* Prevent any transforms */
+}
+
+/* Voice Mode Button */
 .voice-control-btn {
-    position: fixed; /* Fixes the button's position */
-    bottom: 20px; /* Distance from the bottom of the viewport */
-    right: 20px; /* Distance from the right of the viewport */
-    z-index: 9999; /* Ensures the button is always on top */
-    border-radius: 50px; /* Optional: Circular appearance */
-    padding: 12px 25px; /* Adjust padding for size */
-    background-color: #6c757d; /* Button color */
-    color: white; /* Text color */
-    font-size: 16px; /* Text size */
-    border: none; /* Removes default border */
-    cursor: pointer; /* Adds pointer cursor */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-    transition: background-color 0.3s ease; /* Smooth hover transition */
-  }
-  
-  /* Hover effect for interactivity */
-  .voice-control-btn:hover {
-    background-color: #5a6268;
-  }
-  
-  /* Focus effect for accessibility */
-  .voice-control-btn:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(108, 117, 125, 0.5); /* Focus ring */
-  }
-  
+  border-radius: 50px !important;
+  padding: 12px 25px !important;
+  background-color: #6c757d !important;
+  color: white !important;
+  font-size: 16px !important;
+  border: none !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  transition: background-color 0.3s ease !important;
+  text-align: right !important;
+  margin: 0 !important; /* Reset any default margins */
+  display: block !important; /* Ensure proper display */
+  width: auto !important; /* Set width to auto */
+  position: static !important; /* Prevent position inheritance */
+}
+
+/* Hover effect for interactivity */
+.voice-control-btn:hover {
+  background-color: #5a6268 !important;
+}
+
+/* Focus effect for accessibility */
+.voice-control-btn:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(108, 117, 125, 0.5) !important;
+}
+
+/* Popup Button */
+.info-button {
+  background-color: red !important;
+  color: white !important;
+  font-size: 20px !important;
+  border: none !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  transition: background-color 0.3s ease !important;
+  margin: 0 !important; /* Reset any default margins */
+  position: static !important; /* Prevent position inheritance */
+}
+
+/* Hover effect for popup button */
+.info-button:hover {
+  background-color: darkred !important;
+}
+
+/* Focus effect for accessibility */
+.info-button:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.5) !important;
+}
