@@ -1,50 +1,110 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Profile.css";
 
 const Profile = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("User");
-  const [points, setPoints] = useState(1200);
-  const [progress, setProgress] = useState(75);
-  const [badges, setBadges] = useState(["Beginner", "Python Pro", "Logic Master"]);
-  const [languagesLearned, setLanguagesLearned] = useState(["Python", "JavaScript"]);
-  const [recommendedLessons, setRecommendedLessons] = useState([
-    { title: "Loops in Python", difficulty: "Beginner" },
-    { title: "Functions in JavaScript", difficulty: "Intermediate" },
-    { title: "Object-Oriented Programming", difficulty: "Advanced" },
-  ]);
+  const [points, setPoints] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [completedLessons, setCompletedLessons] = useState([]);
+  const [badges, setBadges] = useState([]);
+  const [languagesLearned, setLanguagesLearned] = useState([]);
+  const [recommendedLessons, setRecommendedLessons] = useState([]);
 
   useEffect(() => {
-    // ✅ Fetch username from localStorage
-    const storedUsername = localStorage.getItem("username");
-    const token = localStorage.getItem("token");
+    const generateBadges = (points) => {
+      const earned = [];
+      if (points >= 10) earned.push("Beginner");
+      if (points >= 30) earned.push("Python Pro");
+      if (points >= 50) earned.push("Logic Master");
+      if (points >= 100) earned.push("Code Ninja");
+      if (points >= 200) earned.push("AI Adventurer");
+      return earned;
+    };
 
-    if (!token) {
-      navigate("/login"); // ✅ Redirect to login if not authenticated
-    }
+    const fetchProgress = async () => {
+      const storedUsername = localStorage.getItem("username");
+      const token = localStorage.getItem("token");
 
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      if (storedUsername) {
+        setUsername(storedUsername);
+      }
+
+      try {
+        const response = await axios.get("http://localhost:5000/progress/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const { points, completedLessons } = response.data.progress;
+        setPoints(points);
+        setCompletedLessons(completedLessons);
+
+        const totalLessons = 10; // Update if needed
+        const percentage = Math.min(
+          100,
+          Math.round((completedLessons.length / totalLessons) * 100)
+        );
+        setProgress(percentage);
+
+        // 🔥 Dynamic Badges
+        setBadges(generateBadges(points));
+
+        // 🌍 Dynamic Languages
+        const learned = new Set();
+        completedLessons.forEach((lesson) => {
+          if (lesson.toLowerCase().includes("python")) learned.add("Python");
+          if (lesson.toLowerCase().includes("javascript")) learned.add("JavaScript");
+        });
+        setLanguagesLearned([...learned]);
+
+        // 📚 Dynamic Recommendations
+        const lessonPool = [
+          { title: "Variables and Data Types", difficulty: "Beginner" },
+          { title: "Loops in Python", difficulty: "Beginner" },
+          { title: "Functions in JavaScript", difficulty: "Intermediate" },
+          { title: "DOM Manipulation", difficulty: "Intermediate" },
+          { title: "Object-Oriented Programming", difficulty: "Advanced" },
+          { title: "API Integration", difficulty: "Advanced" },
+        ];
+
+        const recommended = lessonPool.filter(
+          (lesson) => !completedLessons.includes(lesson.title)
+        );
+        setRecommendedLessons(recommended.slice(0, 3));
+      } catch (error) {
+        console.error("Failed to fetch user progress:", error);
+      }
+    };
+
+    fetchProgress();
   }, [navigate]);
 
-  // ✅ Logout function
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    navigate("/login"); // Redirect to login page after logout
+    navigate("/login");
   };
 
   return (
     <div className="profile-container">
-      {/* Header Section */}
+      {/* Header */}
       <div className="profile-header">
         <h1>Welcome Back, {username}! 👋</h1>
-        <button className="logout-button" onClick={handleLogout}>🚪 Logout</button> {/* ✅ Logout Button */}
+        <button className="logout-button" onClick={handleLogout}>
+          🚪 Logout
+        </button>
       </div>
 
-      {/* Profile Overview */}
+      {/* Points and Progress */}
       <div className="profile-info">
         <div className="points-progress">
           <h3>🔥 Points: {points}</h3>

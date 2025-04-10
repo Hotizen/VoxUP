@@ -1,27 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Leaderboard.css';
+import axios from 'axios';
 
 const Leaderboard = () => {
-  const players = [
-    { name: 'Alice', points: 150, level: 3, streak: 5 },
-    { name: 'Bob', points: 120, level: 2, streak: 4 },
-    { name: 'Charlie', points: 110, level: 2, streak: 6 },
-    { name: 'Dave', points: 90, level: 1, streak: 2 },
-    { name: 'Eve', points: 80, level: 1, streak: 3 },
-  ];
+  const [players, setPlayers] = useState([]);
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/progress/leaderboard');
+        setPlayers(response.data.leaderboard);
+      } catch (error) {
+        console.error('Error fetching leaderboard:', error);
+      }
+    };
+
+    fetchLeaderboard();
+  }, []);
 
   return (
     <div className="leaderboard-container">
-      <h3>Leaderboard</h3>
+      <h3>🏆 Leaderboard</h3>
       {players.length > 0 ? (
         <ul>
           {players.map((player, index) => (
-            <li key={index}>
-              <span className="rank">{index + 1}</span>
-              <span className="player-name">{player.name}</span>
+            <li key={index} className="leaderboard-item">
+              <span className="rank">#{index + 1}</span>
+              <span className="player-name">{player.username}</span>
               <span className="player-points">{player.points} pts</span>
-              <span className="player-level">Level {player.level}</span>
-              <span className="player-streak">{player.streak} Days</span>
+              <span className="player-level">Level {Math.floor(player.points / 50) + 1}</span>
+              <span className="player-streak">🔥 {Math.floor(player.points / 20)} Days</span>
             </li>
           ))}
         </ul>
