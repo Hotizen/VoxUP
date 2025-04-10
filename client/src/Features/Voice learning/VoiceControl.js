@@ -203,7 +203,7 @@ const VoiceControl = () => {
   return (
     <div className="voice-controls-container">
       {/* Popup Button */}
-      <button className="info-button" onClick={() => setIsPopupOpen(true)}>❓</button>
+      <button className="info-button" onClick={() => setIsPopupOpen(true)}>📖</button>
       {isPopupOpen && <VoiceCommandsPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />}
 
       <button className="voice-control-btn" onClick={toggleVoiceControl}>

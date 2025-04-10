@@ -12,9 +12,14 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use("/auth", authRoutes);
 
+// ✅ Correct model name from /list-models response
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const MODEL_NAME = "models/gemini-1.5-pro-002";  // ✅ Using latest available model
 
-// API Endpoint for Executing Python Code
+// ✅ Debugging API Key
+console.log("🔍 API Key Loaded:", GEMINI_API_KEY ? "✅ Yes" : "❌ No");
+
+// ✅ API for Executing Python Code
 app.post("/run-python", (req, res) => {
   console.log("Received POST request at /run-python");
   console.log("Request Body:", req.body);
@@ -53,35 +58,43 @@ app.post("/run-python", (req, res) => {
   });
 });
 
-// Route for AI-powered voice-to-code conversion
+// ✅ AI-powered voice-to-code conversion
 app.post("/generate-code", async (req, res) => {
   const { prompt } = req.body;
 
   try {
+    console.log("Received AI request with prompt:", prompt);
+    console.log("🔍 Making request to:", `https://generativelanguage.googleapis.com/v1/models/${MODEL_NAME}:generateContent?key=${GEMINI_API_KEY}`);
+
     const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/${MODEL_NAME}:generateContent?key=${GEMINI_API_KEY}`,
       {
         contents: [{ role: "user", parts: [{ text: `Convert this into Python code: ${prompt}` }] }],
       }
     );
 
+    console.log("✅ AI Response:", response.data);
+
     const generatedCode =
       response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "AI could not generate code.";
 
     res.json({ code: generatedCode });
+
   } catch (error) {
-    console.error("AI Error:", error.response?.data || error.message);
-    res.status(500).json({ error: "AI code generation failed." });
+    console.error("❌ AI API Error:", error.response?.data || error.message);
+    res.status(500).json({ error: "AI code generation failed.", details: error.response?.data || error.message });
   }
 });
 
-// Route for AI-powered code autocompletion
+// ✅ AI-powered code autocompletion
 app.post("/autocomplete", async (req, res) => {
   const userCode = req.body.code;
 
   try {
+    console.log("🔍 Making request to:", `https://generativelanguage.googleapis.com/v1/models/${MODEL_NAME}:generateContent?key=${GEMINI_API_KEY}`);
+
     const geminiResponse = await axios.post(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/${MODEL_NAME}:generateContent?key=${GEMINI_API_KEY}`,
       {
         contents: [{ role: "user", parts: [{ text: `Complete this Python code: ${userCode}` }] }],
       }
@@ -92,17 +105,31 @@ app.post("/autocomplete", async (req, res) => {
 
     res.json({ suggestion: aiSuggestion.trim() });
   } catch (error) {
-    console.error("Error getting AI completion:", error.response?.data || error.message);
+    console.error("❌ AI Completion Error:", error.response?.data || error.message);
     res.status(500).json({ error: "AI completion failed" });
   }
 });
 
-// Other API Routes
+// ✅ API to list available models
+app.get("/list-models", async (req, res) => {
+  try {
+    const response = await axios.get(
+      `https://generativelanguage.googleapis.com/v1/models?key=${GEMINI_API_KEY}`
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.error("❌ Error listing models:", error.response?.data || error.message);
+    res.status(500).json({ error: "Failed to list models" });
+  }
+});
+
+// ✅ Default route
 app.get("/", (req, res) => {
   res.send("VoxUp Backend is Running...");
 });
 
+// ✅ Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
