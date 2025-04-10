@@ -90,7 +90,7 @@ const VoiceControl = () => {
       setCurrentPage('compiler');
     } else if (command.includes('run code')) {
       const code = document.getElementById('monaco-editor')?.getValue();
-      fetch('http://localhost:5000/run-python', {
+      fetch('${API_BASE_URL}/run-python', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code }),

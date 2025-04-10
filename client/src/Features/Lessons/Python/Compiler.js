@@ -13,7 +13,7 @@ const Compiler = () => {
   // Fetch AI-powered autocomplete suggestions
   const fetchAutocomplete = async (inputCode) => {
     try {
-      const response = await axios.post("http://localhost:5000/autocomplete", {
+      const response = await axios.post("${API_BASE_URL}/autocomplete", {
         code: inputCode,
       });
       setSuggestion(response.data.suggestion);
@@ -27,7 +27,7 @@ const Compiler = () => {
   const runCode = async () => {
     try {
       console.log("Sending Code:", code);
-      const response = await axios.post("http://localhost:5000/run-python", {
+      const response = await axios.post("${API_BASE_URL}/run-python", {
         code,
       });
       setOutput(response.data.result);
@@ -53,7 +53,7 @@ const Compiler = () => {
 
       try {
         // Convert speech to AI-generated code
-        const response = await axios.post("http://localhost:5000/generate-code", { prompt: transcript });
+        const response = await axios.post("${API_BASE_URL}/generate-code", { prompt: transcript });
         setCode((prev) => prev + (prev ? "\n" : "") + response.data.code);
       } catch (error) {
         console.error("AI Code Generation Error:", error);

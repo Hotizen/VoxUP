@@ -10,7 +10,7 @@ const LessonScreen = () => {
 
   const handleRunCode = async () => {
     try {
-      const response = await fetch('http://localhost:5000/run-python', {
+      const response = await fetch('${API_BASE_URL}/run-python', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code }),

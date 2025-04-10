@@ -29,7 +29,7 @@ const PythonLearning = () => {
     const handleSubmit = async () => {
         try {
             // Send the code to the backend to execute
-            const response = await axios.post('http://localhost:5000/run-python', { code });
+            const response = await axios.post('${API_BASE_URL}/run-python', { code });
             const output = response.data.result.trim();
 
             // Compare the output with the expected output based on the challenge's test case

@@ -48,7 +48,7 @@ const Profile = () => {
       if (storedUsername) setUsername(storedUsername);
 
       try {
-        const res = await axios.get("http://localhost:5000/progress/me", {
+        const res = await axios.get("${API_BASE_URL}/progress/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
