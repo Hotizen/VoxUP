@@ -1,9 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import logo from '../../Assets/images/voxup-logo.png';
 
 const Navbar = ({ toggleVoiceControl, isListening }) => {
+  const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem('token');
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user'); // if stored
+    navigate('/login');
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
@@ -26,12 +35,26 @@ const Navbar = ({ toggleVoiceControl, isListening }) => {
             <li className="nav-item">
               <Link className="nav-link" to="/">Home</Link>
             </li>
+
+            {isLoggedIn && (
+              <li className="nav-item">
+                <Link className="nav-link profile-btn" to="/profile">Profile</Link>
+              </li>
+            )}
+
             <li className="nav-item">
               <Link className="nav-link" to="/about">About</Link>
             </li>
+
             <li className="nav-item">
-              <Link className="nav-link login-btn" to="/login">Login/Sign In</Link>
-            </li> 
+              {isLoggedIn ? (
+                <button onClick={handleLogout} className="nav-link logout-btn">
+                  Logout
+                </button>
+              ) : (
+                <Link className="nav-link login-btn" to="/login">Login/Sign In</Link>
+              )}
+            </li>
           </ul>
         </div>
       </div>

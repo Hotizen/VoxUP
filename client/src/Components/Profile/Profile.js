@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Profile.css";
@@ -8,10 +8,11 @@ const Profile = () => {
   const [username, setUsername] = useState("User");
   const [points, setPoints] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [completedLessons, setCompletedLessons] = useState([]);
   const [badges, setBadges] = useState([]);
   const [languagesLearned, setLanguagesLearned] = useState([]);
   const [recommendedLessons, setRecommendedLessons] = useState([]);
+  const [rank, setRank] = useState(null);
+  const [upcomingBadges, setUpcomingBadges] = useState([]);
 
   useEffect(() => {
     const generateBadges = (points) => {
@@ -24,7 +25,18 @@ const Profile = () => {
       return earned;
     };
 
-    const fetchProgress = async () => {
+    const determineUpcomingBadges = (points) => {
+      const allBadges = [
+        { name: "Beginner", threshold: 10 },
+        { name: "Python Pro", threshold: 30 },
+        { name: "Logic Master", threshold: 50 },
+        { name: "Code Ninja", threshold: 100 },
+        { name: "AI Adventurer", threshold: 200 },
+      ];
+      return allBadges.filter(b => b.threshold > points);
+    };
+
+    const fetchData = async () => {
       const storedUsername = localStorage.getItem("username");
       const token = localStorage.getItem("token");
 
@@ -33,32 +45,24 @@ const Profile = () => {
         return;
       }
 
-      if (storedUsername) {
-        setUsername(storedUsername);
-      }
+      if (storedUsername) setUsername(storedUsername);
 
       try {
-        const response = await axios.get("http://localhost:5000/progress/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const res = await axios.get("http://localhost:5000/progress/me", {
+          headers: { Authorization: `Bearer ${token}` },
         });
 
-        const { points, completedLessons } = response.data.progress;
+        const { points, completedLessons, rank } = res.data.progress;
         setPoints(points);
-        setCompletedLessons(completedLessons);
-
-        const totalLessons = 10; // Update if needed
-        const percentage = Math.min(
-          100,
-          Math.round((completedLessons.length / totalLessons) * 100)
+        setRank(rank);
+        setProgress(
+          Math.min(100, Math.round((completedLessons.length / 10) * 100))
         );
-        setProgress(percentage);
 
-        // 🔥 Dynamic Badges
-        setBadges(generateBadges(points));
+        const earnedBadges = generateBadges(points);
+        setBadges(earnedBadges);
+        setUpcomingBadges(determineUpcomingBadges(points));
 
-        // 🌍 Dynamic Languages
         const learned = new Set();
         completedLessons.forEach((lesson) => {
           if (lesson.toLowerCase().includes("python")) learned.add("Python");
@@ -66,7 +70,6 @@ const Profile = () => {
         });
         setLanguagesLearned([...learned]);
 
-        // 📚 Dynamic Recommendations
         const lessonPool = [
           { title: "Variables and Data Types", difficulty: "Beginner" },
           { title: "Loops in Python", difficulty: "Beginner" },
@@ -85,72 +88,68 @@ const Profile = () => {
       }
     };
 
-    fetchProgress();
+    fetchData();
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    navigate("/login");
-  };
-
   return (
-    <div className="profile-container">
-      {/* Header */}
-      <div className="profile-header">
-        <h1>Welcome Back, {username}! 👋</h1>
-        <button className="logout-button" onClick={handleLogout}>
-          🚪 Logout
-        </button>
-      </div>
+    <div className="profile-wrapper">
+      <h2 className="profile-heading">👤 {username}'s Profile</h2>
 
-      {/* Points and Progress */}
-      <div className="profile-info">
-        <div className="points-progress">
-          <h3>🔥 Points: {points}</h3>
-          <h3>📈 Progress: {progress}%</h3>
-          <div className="progress-bar">
-            <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+      <div className="stats-box">
+        <div className="stat-item">
+          <span className="stat-label">🔥 Points</span>
+          <span className="stat-value">{points}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">📈 Progress</span>
+          <span className="stat-value">{progress}%</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">🏅 Badges</span>
+          <div className="badges-list">
+            {badges.length > 0 ? badges.map((b, i) => (
+              <span className="badge-tag" key={i}>{b}</span>
+            )) : <span className="no-badge">No badges yet</span>}
           </div>
         </div>
-
-        <div className="badges-section">
-          <h3>🏅 Badges Earned</h3>
-          <div className="badges">
-            {badges.map((badge, index) => (
-              <span key={index} className="badge">{badge}</span>
-            ))}
+        <div className="stat-item">
+          <span className="stat-label">🌍 Languages Learned</span>
+          <div className="languages-list">
+            {languagesLearned.length > 0 ? languagesLearned.map((l, i) => (
+              <span className="language-tag" key={i}>{l}</span>
+            )) : <span className="no-lang">None yet</span>}
           </div>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">🏆 Leaderboard Rank</span>
+          <span className="stat-value">#{rank || "N/A"}</span>
         </div>
       </div>
 
-      {/* Recommended Lessons */}
-      <div className="recommended-lessons">
-        <h3>📚 Recommended Lessons</h3>
-        <ul>
+      <div className="recommend-box">
+        <h4>📚 Recommended Lessons</h4>
+        <ul className="recommend-list">
           {recommendedLessons.map((lesson, index) => (
-            <li key={index} className="lesson-item">
-              {lesson.title} <span className="difficulty">{lesson.difficulty}</span>
+            <li className="lesson-item" key={index}>
+              {lesson.title} <span className="lesson-diff">{lesson.difficulty}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      {/* Languages Learned */}
-      <div className="languages-learned">
-        <h3>🌍 Languages Learned</h3>
-        <div className="languages">
-          {languagesLearned.map((lang, index) => (
-            <span key={index} className="language">{lang}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* Navigation Buttons */}
-      <div className="profile-buttons">
-        <button onClick={() => navigate("/leaderboard")}>🏆 Leaderboard</button>
-        <button onClick={() => navigate("/compiler")}>💻 Compiler</button>
-        <button onClick={() => navigate("/challenges")}>⚔️ Challenges</button>
+      <div className="recommend-box" style={{ marginTop: "20px" }}>
+        <h4>🚀 Upcoming Badges</h4>
+        <ul className="recommend-list">
+          {upcomingBadges.length > 0 ? (
+            upcomingBadges.map((badge, index) => (
+              <li className="lesson-item" key={index}>
+                {badge.name} <span className="lesson-diff">at {badge.threshold} pts</span>
+              </li>
+            ))
+          ) : (
+            <li className="lesson-item">🎉 You've unlocked all badges!</li>
+          )}
+        </ul>
       </div>
     </div>
   );

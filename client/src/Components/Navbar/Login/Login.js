@@ -10,6 +10,11 @@ const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
 
   const handleLogin = async () => {
+    if (!username || !password) {
+      alert('Please enter both username and password.');
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:5000/auth/login', {
         username,
@@ -18,17 +23,23 @@ const Login = () => {
 
       alert(response.data.message);
 
-      // ✅ Store token in localStorage
+      // ✅ Store token and username
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('username', username);
 
-      // ✅ Redirect to personal home screen
       navigate('/personal-home');
     } catch (error) {
+      console.error('Login error:', error);
       alert(error.response?.data?.message || 'Login failed.');
     }
   };
 
   const handleSignUp = async () => {
+    if (!username || !password) {
+      alert('Please enter both username and password.');
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:5000/auth/register', {
         username,
@@ -37,9 +48,10 @@ const Login = () => {
 
       alert(response.data.message);
 
-      // After signup, log in the user
-      handleLogin(); 
+      // Automatically log in after sign up
+      await handleLogin();
     } catch (error) {
+      console.error('Signup error:', error);
       alert(error.response?.data?.message || 'Signup failed.');
     }
   };

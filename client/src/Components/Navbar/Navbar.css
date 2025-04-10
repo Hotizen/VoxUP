@@ -114,3 +114,22 @@
   transform: scale(1.05);
   text-decoration: none;
 }
+
+/* Style for Logout Button */
+.navbar .logout-btn {
+  background-color: #dc3545; /* Red for logout */
+  color: white !important;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar .logout-btn:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+
