@@ -7,10 +7,13 @@ require("dotenv").config();
 
 const app = express();
 const authRoutes = require("./auth");
+const connectDB = require("./db");
+const progressRoutes = require("./progress"); // ✅ Import progress routes
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/auth", authRoutes);
+app.use("/progress", progressRoutes); // ✅ Mount progress routes
 
 // ✅ Correct model name from /list-models response
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -127,6 +130,9 @@ app.get("/list-models", async (req, res) => {
 app.get("/", (req, res) => {
   res.send("VoxUp Backend is Running...");
 });
+
+// ✅ Connect to the database *before* starting the server
+connectDB();
 
 // ✅ Start server
 const PORT = process.env.PORT || 5000;
