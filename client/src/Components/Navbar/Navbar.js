@@ -5,11 +5,11 @@ import logo from '../../Assets/images/voxup-logo.png';
 
 const Navbar = ({ toggleVoiceControl, isListening }) => {
   const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem('token');
+  const isLoggedIn = Boolean(localStorage.getItem('token'));
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('user'); // if stored
+    localStorage.removeItem('user');
     navigate('/login');
   };
 
@@ -17,8 +17,9 @@ const Navbar = ({ toggleVoiceControl, isListening }) => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
         <Link className="navbar-brand" to="/about">
-          <img src={logo} alt="VoxUp Logo" width="120" />
+          <img src={logo} alt="VoxUp Logo" className="navbar-logo" />
         </Link>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -30,21 +31,14 @@ const Navbar = ({ toggleVoiceControl, isListening }) => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to="/">Home</Link>
-            </li>
+          <ul className="navbar-nav ms-auto align-items-center">
 
-            {isLoggedIn && (
-              <li className="nav-item">
-                <Link className="nav-link profile-btn" to="/profile">Profile</Link>
-              </li>
-            )}
+            <NavItem to="/" label="Home" />
+            {isLoggedIn && <NavItem to="/profile" label="Profile" />}
 
-            <li className="nav-item">
-              <Link className="nav-link" to="/about">About</Link>
-            </li>
+            <NavItem to="/about" label="About" />
 
             <li className="nav-item">
               {isLoggedIn ? (
@@ -52,7 +46,9 @@ const Navbar = ({ toggleVoiceControl, isListening }) => {
                   Logout
                 </button>
               ) : (
-                <Link className="nav-link login-btn" to="/login">Login/Sign In</Link>
+                <Link to="/login" className="nav-link login-btn">
+                  Login / Sign In
+                </Link>
               )}
             </li>
           </ul>
@@ -61,5 +57,11 @@ const Navbar = ({ toggleVoiceControl, isListening }) => {
     </nav>
   );
 };
+
+const NavItem = ({ to, label }) => (
+  <li className="nav-item">
+    <Link className="nav-link" to={to}>{label}</Link>
+  </li>
+);
 
 export default Navbar;

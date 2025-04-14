@@ -1,14 +1,28 @@
+/* Define common variables for colors and fonts */
+:root {
+  --primary-blue: #007bff;
+  --white: #ffffff;
+  --light-bg: #f4f4f4;
+  --dark-text: #333;
+  --light-text: #555;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --card-hover-shadow: rgba(0, 0, 0, 0.2);
+  --font-roboto: 'Roboto', sans-serif;
+  --font-open-sans: 'Open Sans', sans-serif;
+}
+
 /* 3-Column Section Container */
 .three-column-section {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 20px;
   padding: 5rem 2rem;
   text-align: center;
-  flex-wrap: wrap;
-  background-color: #f4f4f4; /* Light background for contrast */
+  background-color: var(--light-bg);
 }
 
+/* Column Styles */
 .column {
   flex: 1;
   min-width: 250px;
@@ -16,38 +30,43 @@
   padding: 20px;
 }
 
+/* Card Styles */
 .card {
-  background-color: #ffffff;
+  background-color: var(--white);
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px var(--card-shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px var(--card-hover-shadow);
 }
 
+/* Icon inside card */
 .card i {
-  color: #007bff;
+  color: var(--primary-blue);
   margin-bottom: 1rem;
-  font-size: 3rem; /* Ensure icon is prominent */
+  font-size: 3rem;
 }
 
+/* Card Title */
 .card h3 {
   font-size: 1.6rem;
   margin-bottom: 1rem;
-  color: #333;
-  font-family: 'Roboto', sans-serif;
+  color: var(--dark-text);
+  font-family: var(--font-roboto);
 }
 
+/* Card Paragraph */
 .card p {
   font-size: 1rem;
-  color: #555;
-  font-family: 'Open Sans', sans-serif;
+  color: var(--light-text);
+  font-family: var(--font-open-sans);
 }
 
+/* Responsive Styles */
 @media (max-width: 768px) {
   .three-column-section {
     flex-direction: column;

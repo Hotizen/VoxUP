@@ -1,27 +1,38 @@
-/* Overall container */
+:root {
+  --primary: #007bff;
+  --gradient: linear-gradient(135deg, #667eea, #764ba2);
+  --text-color: #555;
+  --bg-light: #f4f4f4;
+  --white: #fff;
+  --radius: 10px;
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --transition: 0.3s ease;
+  --font-main: 'Arial', sans-serif;
+}
+
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #f4f4f4;
-  font-family: 'Arial', sans-serif;
+  background: var(--bg-light);
+  font-family: var(--font-main);
 }
 
 .login-card {
-  background: #ffffff;
-  border-radius: 10px;
-  padding: 20px;
-  width: 100%;
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 2rem;
+  width: 90%;
   max-width: 400px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow);
   text-align: center;
 }
 
 .login-title {
   font-size: 1.8rem;
   margin-bottom: 20px;
-  color: #007bff;
+  color: var(--primary);
 }
 
 input {
@@ -30,24 +41,36 @@ input {
   margin: 10px 0;
   border: 1px solid #ddd;
   border-radius: 5px;
+  font-size: 1rem;
+  transition: border var(--transition);
+}
+
+input:focus {
+  border-color: var(--primary);
+  outline: none;
 }
 
 .main-button {
   width: 100%;
   padding: 10px;
   margin: 15px 0;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: #fff;
+  background: var(--gradient);
+  color: var(--white);
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .main-button:hover {
   transform: scale(1.05);
   box-shadow: 0px 8px 15px rgba(118, 75, 162, 0.2);
+}
+
+.main-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .social-login {
@@ -57,7 +80,7 @@ input {
 .social-login p {
   margin-bottom: 10px;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--text-color);
 }
 
 .social-icons {
@@ -69,12 +92,12 @@ input {
 
 .social-icons i {
   cursor: pointer;
-  color: #555;
-  transition: color 0.3s ease, transform 0.2s ease;
+  color: var(--text-color);
+  transition: color var(--transition), transform 0.2s ease;
 }
 
 .social-icons i:hover {
-  color: #007bff;
+  color: var(--primary);
   transform: scale(1.2);
 }
 
@@ -84,7 +107,7 @@ input {
 }
 
 .toggle-mode span {
-  color: #007bff;
+  color: var(--primary);
   cursor: pointer;
 }
 
@@ -92,20 +115,19 @@ input {
   text-decoration: underline;
 }
 
-/* Centering Guest Login Button Below Login */
 .guest-button {
   background: #3498db;
-  color: #fff;
+  color: var(--white);
   border: none;
   padding: 10px 15px;
   font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
-  transition: 0.3s;
-  width: 100%; /* Align with other buttons */
-  text-align: center;
+  transition: background var(--transition);
+  width: 100%;
+  margin: 10px auto 0;
   display: block;
-  margin: 10px auto 0; /* Add space from login button */
+  text-align: center;
 }
 
 .guest-button:hover {
