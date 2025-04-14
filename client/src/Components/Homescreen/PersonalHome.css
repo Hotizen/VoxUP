@@ -1,81 +1,79 @@
 .personal-home {
-    background-color: #f7f9fc;
-    padding: 2rem;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  .personal-home h2 {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #333;
-  }
-  
-  .personal-home h4 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    color: #4caf50;
-  }
-  
-  .badges {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 1rem;
-  }
-  
-  .badges li {
-    background-color: #e0f2f1;
-    color: #00796b;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
-  }
-  
-  .progress-bar {
-    background-color: #e0e0e0;
-    border-radius: 50px;
-    overflow: hidden;
-    height: 12px; /* Smaller height */
-    margin-bottom: 1rem;
-  }
-  
-  .progress-bar .bg-success {
-    background-color: #4caf50 !important;
-    height: 100%;
-    font-size: 0.8rem;
-    font-weight: 500;
-    text-align: center;
-    line-height: 12px;
-    color: #fff;
-  }
-  
-  
-  .card {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    border: none;
-    border-radius: 10px;
-    margin-bottom: 1.5rem;
-  }
-  
-  .card-title {
-    font-size: 1.2rem;
-    color: #333;
-  }
-  
-  .card-text {
-    font-size: 0.95rem;
-    color: #666;
-  }
-  
-  .btn-primary {
-    background-color: #4caf50;
-    border: none;
-    font-weight: bold;
-  }
-  
-  .btn-primary:hover {
-    background-color: #43a047;
-  }
-  
+  background-color: #f7f9fc;
+  padding: 2rem;
+  font-family: 'Arial', sans-serif;
+}
+
+.personal-home h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.personal-home h4 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #4caf50;
+}
+
+.badges {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.badges li {
+  background-color: #e0f2f1;
+  color: #00796b;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 50px;
+  overflow: hidden;
+  height: 12px; /* Smaller height */
+  margin-bottom: 1rem;
+}
+
+.progress-bar .bg-success {
+  background-color: #4caf50 !important;
+  height: 100%;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 12px;
+  color: #fff;
+}
+
+.card {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.card-text {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.btn-primary {
+  background-color: #4caf50;
+  border: none;
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  background-color: #43a047;
+}

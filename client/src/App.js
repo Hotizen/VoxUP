@@ -4,7 +4,7 @@ import Login from './Components/Navbar/Login/Login';
 import HomeScreen from './Components/Homescreen/HomeScreen'; // HomeScreen includes HeroSection
 import Profile from './Components/Profile/Profile';
 import LessonGrid from './Features/Lessons/LessonGrid';
-import LessonDetail from './Features/Lessons/LessonDetail';
+// import LessonDetail from './Features/Lessons/LessonDetail';
 import Quiz from './Features/Lessons/Quiz';
 import About from './Components/Navbar/About/About';
 import ThreeColumnSection from './Components/Threecolumns/ThreeColumnSection';
@@ -36,7 +36,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/lessons" element={<LessonGrid />} />
-        <Route path="/lesson-detail/:id" element={<LessonDetail />} />
+        {/* <Route path="/lesson-detail/:id" element={<LessonDetail />} /> */}
         <Route path="/lesson-screen/:lessonTitle" element={<LessonScreen />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/quiz" element={<Quiz />} />

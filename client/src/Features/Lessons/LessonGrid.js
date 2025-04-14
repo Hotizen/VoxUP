@@ -24,7 +24,7 @@ const LessonGrid = () => {
   const suggestions = location.state?.suggestions || [];
 
   const handleLessonSelect = (id) => {
-    navigate(`/lesson-detail/${id}`);
+    navigate(`/intro-to-python`);
   };
 
   return (

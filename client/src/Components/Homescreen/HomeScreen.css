@@ -2,29 +2,77 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    justify-content: flex-start; /* Updated to align top */
+    min-height: 100vh;
     background: #f7f9fc;
     font-family: 'Arial', sans-serif;
-}
-
-.menu-options {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-}
-
-button {
-    padding: 15px 30px;
+    padding: 20px; /* Added padding for better spacing */
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 1200px; /* Added max-width for better content alignment */
+  }
+  
+  h2 {
+    font-size: 2rem; /* Increased font size for better readability */
+    font-weight: 600;
+    margin-bottom: 20px; /* Added margin for spacing */
+  }
+  
+  button {
+    padding: 12px 25px; /* Adjusted padding for better button appearance */
     background-color: #4caf50;
     color: white;
     border: none;
     border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
-}
-
-button:hover {
+    transition: background-color 0.3s ease-in-out; /* Smooth transition */
+  }
+  
+  button:hover {
     background-color: #45a049;
-} 
+  }
+  
+  .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added subtle shadow for card depth */
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px); /* Hover effect for interactive feel */
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Added gap for spacing between cards */
+  }
+  
+  @media (max-width: 768px) {
+    .row {
+      flex-direction: column;
+    }
+  
+    .col-md-4 {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+  

@@ -26,7 +26,7 @@ const PersonalHome = () => {
 
     const fetchUserData = async () => {
       try {
-        const res = await axios.get('${API_BASE_URL}/progress/me', {
+        const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/progress/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -50,7 +50,7 @@ const PersonalHome = () => {
   }, [navigate]);
 
   return (
-    <div>
+    <div className="personal-home">
       <HeroSection />
 
       <div className="container text-center mt-4">
@@ -60,7 +60,7 @@ const PersonalHome = () => {
         <div className="my-3">
           <h5>🏅 Badges:</h5>
           {badges.length > 0 ? (
-            <ul style={{ listStyle: 'none', padding: 0 }}>
+            <ul className="badges">
               {badges.map((badge, i) => (
                 <li key={i}>{badge}</li>
               ))}

@@ -27,38 +27,39 @@ const VoiceCommandsPopup = ({ isOpen, onClose }) => {
         { phrase: "Go to personal home", description: "Open personalized home" },
         { phrase: "Go to compiler", description: "Open code compiler" },
         { phrase: "Go to challenges", description: "Start coding challenges" },
-        { phrase: "Go to quiz", description: "Start the quiz" },
+        { phrase: "Go to quiz / Start quiz", description: "Start the quiz" },
+        { phrase: "Explore lessons / Go to lessons", description: "View all lessons" },
+        { phrase: "Start Python lesson", description: "Begin Python course" },
+        { phrase: "Continue", description: "Continue to next lesson" },
         { phrase: "Go back / Go forward", description: "Browser navigation" }
       ]
     },
     {
       title: "Authentication", icon: "🔐", commands: [
-        { phrase: "Login / Sign in", description: "Go to login page" },
-        { phrase: "Sign up / Register", description: "Go to registration page" },
-        { phrase: "Logout", description: "Log out of your account" }
+        { phrase: "Login / Sign in", description: "Open login form" },
+        { phrase: "Sign up / Register", description: "Switch to signup" },
+        { phrase: "Logout", description: "Sign out from account" }
       ]
     },
     {
       title: "Quiz", icon: "🎯", commands: [
-        { phrase: "Get started", description: "Begin quiz" },
+        { phrase: "Get started", description: "Start the quiz journey" },
         { phrase: "Submit answer", description: "Submit your answer" },
-        { phrase: "Show hint", description: "Reveal hint for question" },
-        { phrase: "Select option 1/2/3", description: "Choose an answer" }
+        { phrase: "Select option 1 / 2 / 3", description: "Choose a quiz option" },
       ]
     },
     {
       title: "Compiler", icon: "💻", commands: [
         { phrase: "Run code", description: "Execute the code" },
-        { phrase: "Clear code", description: "Reset code editor" }
+        { phrase: "Clear code", description: "Reset editor content" }
       ]
     },
     {
-      title: "Extras", icon: "✨", commands: [
-        { phrase: "Contact support", description: "Open support page" },
+      title: "Voice & Fun", icon: "✨", commands: [
         { phrase: "Show commands", description: "Open this help panel" },
-        { phrase: "How many points do I have", description: "Read your current points" },
-        { phrase: "Which badge did I earn", description: "Read your recent badge" },
-        { phrase: "Motivate me", description: "Get motivation" }
+        { phrase: "How many points do I have", description: "Read out your score" },
+        { phrase: "Which badge did I earn", description: "Announce your latest badge" },
+        { phrase: "Motivate me", description: "Get an encouraging message" }
       ]
     }
   ];
@@ -66,20 +67,29 @@ const VoiceCommandsPopup = ({ isOpen, onClose }) => {
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-        <h3 className="popup-title">🎤 Voice Commands</h3>
+        <div className="popup-header">
+          <h3 className="popup-title">🎤 Voice Commands</h3>
+        </div>
         <div className="scroll-container" ref={scrollRef}>
           {commandSections.map((section, index) => (
             <div key={index} className="command-section">
-              <h4><span>{section.icon}</span> {section.title}</h4>
-              <ul>
+              <h4 className="section-title">
+                <span>{section.icon}</span> {section.title}
+              </h4>
+              <ul className="command-list">
                 {section.commands.map((cmd, idx) => (
-                  <li key={idx}><strong>{cmd.phrase}</strong> — {cmd.description}</li>
+                  <li key={idx} className="command-item">
+                    <span className="command-phrase">{cmd.phrase}</span>
+                    <span className="command-description"> — {cmd.description}</span>
+                  </li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
-        <button className="close-button" onClick={onClose}>✖ Close</button>
+        <div className="popup-footer">
+          <button className="close-button" onClick={onClose}>✖ Close</button>
+        </div>
       </div>
     </div>
   );

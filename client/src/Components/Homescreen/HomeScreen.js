@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import Navbar from './Navbar';
-// import VoiceControl from '../../Features/Voice learning/VoiceControl'; 
 import HeroSection from '../Herosection/HeroSection';
 import ThreeColumnSection from '../Threecolumns/ThreeColumnSection';
 import Footer from '../Footer/Footer';
@@ -9,19 +7,7 @@ import Footer from '../Footer/Footer';
 const HomeScreen = () => {
   const navigate = useNavigate();
   const [feedback, setFeedback] = useState('');
-  const [progress, setProgress] = useState(50); 
-
-
-
-  // const startLesson = (lesson) => {
-  //   setFeedback(`Starting ${lesson} lesson...`);
-  //   setProgress(progress + 10); 
-  // };
-
-  // const completeLesson = () => {
-  //   setFeedback('Lesson completed!');
-  //   setProgress(progress + 20); 
-  // };
+  const [progress, setProgress] = useState(50);
 
   // Function to handle quiz navigation
   const handleQuizStart = () => {
@@ -29,23 +15,19 @@ const HomeScreen = () => {
   };
 
   return (
-    <div>
+    <div className="home-screen">
       <HeroSection />
       
       <div className="container text-center mt-4">
         <h2>VoxUp - Learn Coding with Voice Commands</h2>
-
         <p>{feedback}</p>
+
         <ThreeColumnSection />
-        {/* Button to start quiz */}
+
         <button className="btn btn-primary mt-4" onClick={handleQuizStart}>
           Find What's Right for You
         </button>
 
-        
-        {/* <VoiceControl setFeedback={setFeedback} />  */}
-
-        {/* Card Section */}
         <div className="row mt-5">
           {/* Card for Lessons */}
           <div className="col-md-4">
@@ -87,8 +69,10 @@ const HomeScreen = () => {
           </div>
         </div>
       </div>
+
       <Footer />
     </div>
-  ); 
+  );
 };
+
 export default HomeScreen;

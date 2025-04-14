@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom'; // ⬅️ import useLocation
 import VoiceCommandsPopup from "../Voice learning/VoiceCommandsPopup";
 import './VoiceControl.css';
 
@@ -7,6 +7,7 @@ const VoiceControl = () => {
   const [isListening, setIsListening] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation(); // ⬅️ get current path
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = SpeechRecognition ? new SpeechRecognition() : null;
 
@@ -41,9 +42,9 @@ const VoiceControl = () => {
 
     // --- Navigation
     if (command.includes("go to home")) navigate("/");
-    else if (command.includes("open about")|| command.includes("go to about")) navigate("/about");
-    else if (command.includes("go to progress")|| command.includes("show progress")) navigate("/progress");
-    else if (command.includes("go to leaderboard")|| command.includes("show leaderboard")) navigate("/leaderboard");
+    else if (command.includes("open about") || command.includes("go to about")) navigate("/about");
+    else if (command.includes("go to progress") || command.includes("show progress")) navigate("/progress");
+    else if (command.includes("go to leaderboard") || command.includes("show leaderboard")) navigate("/leaderboard");
     else if (command.includes("go to profile")) navigate("/profile");
     else if (command.includes("go to personal home")) navigate("/personal-home");
     else if (command.includes("go to compiler")) navigate("/compiler");
@@ -53,21 +54,18 @@ const VoiceControl = () => {
     else if (command.includes("go forward")) window.history.forward();
 
     // --- Auth
-    else if (command.includes("login")|| command.includes("sign in")) {
+    else if (command.includes("login") || command.includes("sign in")) {
       navigate("/login");
       setTimeout(() => {
-        // Make sure login form shows
         document.querySelector("#switch-to-login")?.click();
       }, 500);
     }
-    else if (command.includes("sign up") || command.includes("register") ) {
+    else if (command.includes("sign up") || command.includes("register")) {
       navigate("/login");
       setTimeout(() => {
-        // Make sure signup form shows
         document.querySelector("#switch-to-signup")?.click();
       }, 500);
     }
-    
     else if (command.includes("logout")) {
       localStorage.clear();
       navigate("/login");
@@ -82,20 +80,22 @@ const VoiceControl = () => {
     else if (command.includes("select option 3")) document.querySelectorAll(".quiz-option-btn")[2]?.click();
 
     // --- Compiler
-    else if (command.includes("run code")) {
-      document.getElementById("run-button")?.click();
-    } else if (command.includes("clear code")) {
-      document.getElementById("clear-button")?.click();
+    else if (command.includes("run code")) document.getElementById("run-button")?.click();
+    else if (command.includes("clear code")) document.getElementById("clear-button")?.click();
+
+    // --- Lessons
+    else if (command.includes("explore lessons") || command.includes("go to lessons")) {
+      navigate("/lessons");
     }
-    
-    
+    else if (command.includes("start python lesson") || command.includes("python lesson")) {
+      navigate("/intro-to-python");
+    }
+    else if (command.includes("continue") && location.pathname === "/intro-to-python") {
+      navigate("/python-basics");
+    }
 
-    // --- Support
-    // else if (command.includes("contact support") || command.includes("open contact")) navigate("/contact");
-
-    // --- Voice Popup
+    // --- Popup
     else if (command.includes("show commands")) setIsPopupOpen(true);
-    // else if (command.includes("stop listening") || command.includes("disable voice mode")) toggleVoiceControl();
 
     // --- Fun
     else if (command.includes("motivate me")) speak("You are doing great! Keep going!");
@@ -104,7 +104,7 @@ const VoiceControl = () => {
   };
 
   const toggleVoiceControl = () => {
-    if (!recognition) return console.error("No such Command");
+    if (!recognition) return console.error("Speech recognition not supported");
     isListening ? recognition.stop() : recognition.start();
     setIsListening(!isListening);
   };
@@ -115,7 +115,9 @@ const VoiceControl = () => {
       <button className="voice-control-btn" onClick={toggleVoiceControl}>
         {isListening ? "Stop Voice Mode" : "Start Voice Mode"}
       </button>
-      {isPopupOpen && <VoiceCommandsPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />}
+      {isPopupOpen && (
+        <VoiceCommandsPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
+      )}
     </div>
   );
 };

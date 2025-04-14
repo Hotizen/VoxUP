@@ -5,37 +5,18 @@ import "./Profile.css";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("User");
-  const [points, setPoints] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [badges, setBadges] = useState([]);
-  const [languagesLearned, setLanguagesLearned] = useState([]);
-  const [recommendedLessons, setRecommendedLessons] = useState([]);
-  const [rank, setRank] = useState(null);
-  const [upcomingBadges, setUpcomingBadges] = useState([]);
+  const [userData, setUserData] = useState({
+    username: "User",
+    points: 0,
+    progress: 0,
+    badges: [],
+    languagesLearned: [],
+    recommendedLessons: [],
+    rank: null,
+    upcomingBadges: [],
+  });
 
   useEffect(() => {
-    const generateBadges = (points) => {
-      const earned = [];
-      if (points >= 10) earned.push("Beginner");
-      if (points >= 30) earned.push("Python Pro");
-      if (points >= 50) earned.push("Logic Master");
-      if (points >= 100) earned.push("Code Ninja");
-      if (points >= 200) earned.push("AI Adventurer");
-      return earned;
-    };
-
-    const determineUpcomingBadges = (points) => {
-      const allBadges = [
-        { name: "Beginner", threshold: 10 },
-        { name: "Python Pro", threshold: 30 },
-        { name: "Logic Master", threshold: 50 },
-        { name: "Code Ninja", threshold: 100 },
-        { name: "AI Adventurer", threshold: 200 },
-      ];
-      return allBadges.filter(b => b.threshold > points);
-    };
-
     const fetchData = async () => {
       const storedUsername = localStorage.getItem("username");
       const token = localStorage.getItem("token");
@@ -45,7 +26,7 @@ const Profile = () => {
         return;
       }
 
-      if (storedUsername) setUsername(storedUsername);
+      if (storedUsername) setUserData((prevData) => ({ ...prevData, username: storedUsername }));
 
       try {
         const res = await axios.get("${API_BASE_URL}/progress/me", {
@@ -53,36 +34,21 @@ const Profile = () => {
         });
 
         const { points, completedLessons, rank } = res.data.progress;
-        setPoints(points);
-        setRank(rank);
-        setProgress(
-          Math.min(100, Math.round((completedLessons.length / 10) * 100))
-        );
+        const badges = generateBadges(points);
+        const upcomingBadges = determineUpcomingBadges(points);
+        const languagesLearned = getLanguagesLearned(completedLessons);
+        const recommendedLessons = getRecommendedLessons(completedLessons);
 
-        const earnedBadges = generateBadges(points);
-        setBadges(earnedBadges);
-        setUpcomingBadges(determineUpcomingBadges(points));
-
-        const learned = new Set();
-        completedLessons.forEach((lesson) => {
-          if (lesson.toLowerCase().includes("python")) learned.add("Python");
-          if (lesson.toLowerCase().includes("javascript")) learned.add("JavaScript");
-        });
-        setLanguagesLearned([...learned]);
-
-        const lessonPool = [
-          { title: "Variables and Data Types", difficulty: "Beginner" },
-          { title: "Loops in Python", difficulty: "Beginner" },
-          { title: "Functions in JavaScript", difficulty: "Intermediate" },
-          { title: "DOM Manipulation", difficulty: "Intermediate" },
-          { title: "Object-Oriented Programming", difficulty: "Advanced" },
-          { title: "API Integration", difficulty: "Advanced" },
-        ];
-
-        const recommended = lessonPool.filter(
-          (lesson) => !completedLessons.includes(lesson.title)
-        );
-        setRecommendedLessons(recommended.slice(0, 3));
+        setUserData((prevData) => ({
+          ...prevData,
+          points,
+          rank,
+          progress: Math.min(100, Math.round((completedLessons.length / 10) * 100)),
+          badges,
+          upcomingBadges,
+          languagesLearned,
+          recommendedLessons,
+        }));
       } catch (error) {
         console.error("Failed to fetch user progress:", error);
       }
@@ -91,45 +57,78 @@ const Profile = () => {
     fetchData();
   }, [navigate]);
 
+  const generateBadges = (points) => {
+    const earned = [];
+    const badgeThresholds = [
+      { name: "Beginner", threshold: 10 },
+      { name: "Python Pro", threshold: 30 },
+      { name: "Logic Master", threshold: 50 },
+      { name: "Code Ninja", threshold: 100 },
+      { name: "AI Adventurer", threshold: 200 },
+    ];
+
+    badgeThresholds.forEach((badge) => {
+      if (points >= badge.threshold) earned.push(badge.name);
+    });
+
+    return earned;
+  };
+
+  const determineUpcomingBadges = (points) => {
+    const allBadges = [
+      { name: "Beginner", threshold: 10 },
+      { name: "Python Pro", threshold: 30 },
+      { name: "Logic Master", threshold: 50 },
+      { name: "Code Ninja", threshold: 100 },
+      { name: "AI Adventurer", threshold: 200 },
+    ];
+    return allBadges.filter(badge => badge.threshold > points);
+  };
+
+  const getLanguagesLearned = (completedLessons) => {
+    const learned = new Set();
+    completedLessons.forEach((lesson) => {
+      if (lesson.toLowerCase().includes("python")) learned.add("Python");
+      if (lesson.toLowerCase().includes("javascript")) learned.add("JavaScript");
+    });
+    return [...learned];
+  };
+
+  const getRecommendedLessons = (completedLessons) => {
+    const lessonPool = [
+      { title: "Variables and Data Types", difficulty: "Beginner" },
+      { title: "Loops in Python", difficulty: "Beginner" },
+      { title: "Functions in JavaScript", difficulty: "Intermediate" },
+      { title: "DOM Manipulation", difficulty: "Intermediate" },
+      { title: "Object-Oriented Programming", difficulty: "Advanced" },
+      { title: "API Integration", difficulty: "Advanced" },
+    ];
+    return lessonPool.filter(lesson => !completedLessons.includes(lesson.title)).slice(0, 3);
+  };
+
   return (
     <div className="profile-wrapper">
-      <h2 className="profile-heading">👤 {username}'s Profile</h2>
+      <h2 className="profile-heading">👤 {userData.username}'s Profile</h2>
 
       <div className="stats-box">
-        <div className="stat-item">
-          <span className="stat-label">🔥 Points</span>
-          <span className="stat-value">{points}</span>
-        </div>
-        <div className="stat-item">
-          <span className="stat-label">📈 Progress</span>
-          <span className="stat-value">{progress}%</span>
-        </div>
-        <div className="stat-item">
-          <span className="stat-label">🏅 Badges</span>
-          <div className="badges-list">
-            {badges.length > 0 ? badges.map((b, i) => (
-              <span className="badge-tag" key={i}>{b}</span>
-            )) : <span className="no-badge">No badges yet</span>}
+        {[
+          { label: "🔥 Points", value: userData.points },
+          { label: "📈 Progress", value: `${userData.progress}%` },
+          { label: "🏅 Badges", value: userData.badges.length ? userData.badges.join(", ") : "No badges yet" },
+          { label: "🌍 Languages Learned", value: userData.languagesLearned.length ? userData.languagesLearned.join(", ") : "None yet" },
+          { label: "🏆 Leaderboard Rank", value: `#${userData.rank || "N/A"}` },
+        ].map(({ label, value }, idx) => (
+          <div className="stat-item" key={idx}>
+            <span className="stat-label">{label}</span>
+            <span className="stat-value">{value}</span>
           </div>
-        </div>
-        <div className="stat-item">
-          <span className="stat-label">🌍 Languages Learned</span>
-          <div className="languages-list">
-            {languagesLearned.length > 0 ? languagesLearned.map((l, i) => (
-              <span className="language-tag" key={i}>{l}</span>
-            )) : <span className="no-lang">None yet</span>}
-          </div>
-        </div>
-        <div className="stat-item">
-          <span className="stat-label">🏆 Leaderboard Rank</span>
-          <span className="stat-value">#{rank || "N/A"}</span>
-        </div>
+        ))}
       </div>
 
       <div className="recommend-box">
         <h4>📚 Recommended Lessons</h4>
         <ul className="recommend-list">
-          {recommendedLessons.map((lesson, index) => (
+          {userData.recommendedLessons.map((lesson, index) => (
             <li className="lesson-item" key={index}>
               {lesson.title} <span className="lesson-diff">{lesson.difficulty}</span>
             </li>
@@ -140,8 +139,8 @@ const Profile = () => {
       <div className="recommend-box" style={{ marginTop: "20px" }}>
         <h4>🚀 Upcoming Badges</h4>
         <ul className="recommend-list">
-          {upcomingBadges.length > 0 ? (
-            upcomingBadges.map((badge, index) => (
+          {userData.upcomingBadges.length ? (
+            userData.upcomingBadges.map((badge, index) => (
               <li className="lesson-item" key={index}>
                 {badge.name} <span className="lesson-diff">at {badge.threshold} pts</span>
               </li>
