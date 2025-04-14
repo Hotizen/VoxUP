@@ -1,74 +1,103 @@
-.code-complete-container {
-    padding: 30px;
-    background: linear-gradient(135deg, #f3f4f6, #e0f2f1);
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
-    max-width: 600px;
-    margin: auto;
+.codecomplete-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f3f4f6, #e0f2f1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+.codecomplete-title {
+  font-size: 2rem;
+  color: #007bff;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.codecomplete-block {
+  background-color: #272822;
+  color: #f8f8f2;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  text-align: left;
+  white-space: pre-wrap;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.codecomplete-input {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px 15px;
+  font-size: 1.1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.codecomplete-input:focus {
+  border-color: #007bff;
+}
+
+.codecomplete-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.codecomplete-btn {
+  background: linear-gradient(to right, #4a90e2, #007bff);
+  color: white;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.codecomplete-btn:hover {
+  background: linear-gradient(to right, #007bff, #4a90e2);
+  transform: scale(1.05);
+}
+
+.codecomplete-btn.secondary {
+  background: #6c757d;
+}
+
+.codecomplete-btn.secondary:hover {
+  background: #5a6268;
+}
+
+.codecomplete-answer {
+  margin-top: 20px;
+  font-size: 1.3rem;
+  color: #2ecc71;
+  font-weight: 600;
+}
+
+.codecomplete-feedback {
+  margin-top: 15px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .codecomplete-buttons {
+    flex-direction: column;
   }
-  
-  h3 {
-    font-size: 1.8rem;
-    color: #4a90e2;
-    font-weight: bold;
+
+  .codecomplete-input {
+    width: 100%;
   }
-  
-  .code-block {
-    background: #272822;
-    color: #f8f8f2;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 1.2rem;
-    text-align: left;
-    white-space: pre-wrap;
-    margin: 15px 0;
-  }
-  
-  .code-input {
-    width: 90%;
-    padding: 12px;
-    font-size: 1.2rem;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  
-  .buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  .check-btn, .show-btn {
-    background: linear-gradient(to right, #4a90e2, #007bff);
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1.2rem;
-    transition: background 0.3s ease, transform 0.3s ease;
-  }
-  
-  .check-btn:hover, .show-btn:hover {
-    background: linear-gradient(to right, #007bff, #4a90e2);
-    transform: scale(1.05);
-  }
-  
-  .answer-box {
-    margin-top: 15px;
-    font-size: 1.4rem;
-    color: #2ecc71;
-    font-weight: bold;
-  }
-  
-  .message {
-    margin-top: 10px;
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: #e74c3c;
-  }
-  
+}

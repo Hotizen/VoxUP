@@ -5,28 +5,35 @@ const GoalsModal = ({ show, onClose }) => {
   const [goal, setGoal] = useState('');
 
   const handleSetGoal = () => {
-    alert(`Your goal "${goal}" has been saved.`);
-    onClose();
+    if (goal.trim()) {
+      alert(`Your goal "${goal}" has been saved.`);
+      onClose();
+    } else {
+      alert('Please enter a valid goal.');
+    }
   };
 
   if (!show) return null;
 
   return (
-    <div className="modal">
-      <div className="modal-content">
+    <div className="modal" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h3>Set Your Goal</h3>
         <input
           type="text"
           placeholder="Enter your goal"
           value={goal}
           onChange={(e) => setGoal(e.target.value)}
+          className="goal-input"
         />
-        <button onClick={handleSetGoal} className="btn btn-success mt-2">
-          Save Goal
-        </button>
-        <button onClick={onClose} className="btn btn-danger mt-2">
-          Close
-        </button>
+        <div className="button-group">
+          <button onClick={handleSetGoal} className="btn btn-success">
+            Save Goal
+          </button>
+          <button onClick={onClose} className="btn btn-danger">
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );

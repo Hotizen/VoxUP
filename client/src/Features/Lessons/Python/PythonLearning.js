@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const challenges = [
@@ -24,6 +24,11 @@ const PythonLearning = () => {
     const [error, setError] = useState('');
     const [currentChallenge, setCurrentChallenge] = useState(challenges[0]);
     const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        // Initialize code template when challenge changes
+        setCode(currentChallenge.codeTemplate);
+    }, [currentChallenge]);
 
     // Function to handle code submission
     const handleSubmit = async () => {
@@ -80,16 +85,17 @@ const PythonLearning = () => {
                 placeholder="Write Python code here..."
                 rows="10"
                 cols="50"
+                style={{ width: '100%', fontFamily: 'monospace', fontSize: '16px' }}
             />
             <div>
-                <button onClick={handleSubmit}>Run Code</button>
+                <button onClick={handleSubmit} className="btn btn-primary">Run Code</button>
             </div>
             {error && <div style={{ color: 'red' }}>{error}</div>}
             {result && <div>{result}</div>}
-            {progress && <div><strong>Progress:</strong> {progress}%</div>}
+            {progress > 0 && <div><strong>Progress:</strong> {progress}%</div>}
             <Rewards progress={progress} />
             <div>
-                <button onClick={handleNextChallenge}>Next Challenge</button>
+                <button onClick={handleNextChallenge} className="btn btn-secondary">Next Challenge</button>
             </div>
         </div>
     );

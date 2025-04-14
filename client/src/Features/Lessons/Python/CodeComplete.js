@@ -32,48 +32,66 @@ const challenges = [
 const CodeComplete = ({ updateProgress }) => {
   const [currentChallenge, setCurrentChallenge] = useState(0);
   const [userInput, setUserInput] = useState('');
-  const [message, setMessage] = useState('');
+  const [feedbackMessage, setFeedbackMessage] = useState('');
   const [showAnswer, setShowAnswer] = useState(false);
 
+  const current = challenges[currentChallenge];
+
   const handleCheckAnswer = () => {
-    if (userInput.trim() === challenges[currentChallenge].answer) {
-      setMessage("✅ Correct! Well done.");
+    const trimmedInput = userInput.trim();
+    if (trimmedInput === current.answer) {
+      setFeedbackMessage("✅ Correct! Well done.");
       setTimeout(() => {
-        setMessage("");
-        nextChallenge();
+        setFeedbackMessage('');
+        handleNextChallenge();
       }, 1000);
     } else {
-      setMessage("❌ Incorrect! Try again.");
+      setFeedbackMessage("❌ Incorrect! Try again.");
     }
   };
 
-  const nextChallenge = () => {
+  const handleNextChallenge = () => {
     if (currentChallenge < challenges.length - 1) {
-      setCurrentChallenge(currentChallenge + 1);
+      setCurrentChallenge(prev => prev + 1);
       setUserInput('');
       setShowAnswer(false);
     } else {
-      setMessage("🎉 All Challenges Completed!");
+      setFeedbackMessage("🎉 All Challenges Completed!");
     }
   };
 
   return (
-    <div className="code-complete-container">
-      <h3>{challenges[currentChallenge].title}</h3>
-      <pre className="code-block">{challenges[currentChallenge].question}</pre>
+    <div className="codecomplete-container">
+      <h3 className="codecomplete-title">{current.title}</h3>
+
+      <pre className="codecomplete-block">{current.question}</pre>
+
       <input
+        className="codecomplete-input"
         type="text"
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
-        className="code-input"
         placeholder="Type your answer here..."
       />
-      <div className="buttons">
-        <button onClick={handleCheckAnswer} className="check-btn">Check Answer</button>
-        <button onClick={() => setShowAnswer(true)} className="show-btn">Show Answer</button>
+
+      <div className="codecomplete-buttons">
+        <button className="codecomplete-btn" onClick={handleCheckAnswer}>
+          Check Answer
+        </button>
+        <button className="codecomplete-btn secondary" onClick={() => setShowAnswer(true)}>
+          Show Answer
+        </button>
       </div>
-      {showAnswer && <div className="answer-box">✅ Correct Answer: {challenges[currentChallenge].answer}</div>}
-      {message && <div className="message">{message}</div>}
+
+      {showAnswer && (
+        <div className="codecomplete-answer">
+          ✅ Correct Answer: <code>{current.answer}</code>
+        </div>
+      )}
+
+      {feedbackMessage && (
+        <div className="codecomplete-feedback">{feedbackMessage}</div>
+      )}
     </div>
   );
 };

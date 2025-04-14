@@ -1,132 +1,131 @@
-/* General Leaderboard Container Styling */
+/* Container */
 .leaderboard-container {
-    padding: 30px;
-    background: linear-gradient(to right, #4facfe, #00f2fe); /* Gradient background */
-    border-radius: 15px;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  /* Title Styling */
-  .leaderboard-container h3 {
-    font-size: 2rem;
-    color: #ffffff;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  /* List Styling */
-  .leaderboard-container ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .leaderboard-container li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #ffffff;
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    font-size: 1.1rem;
-    transition: transform 0.2s, background-color 0.3s ease;
-  }
-  
-  .leaderboard-container li:hover {
-    transform: translateY(-5px);
-    background-color: #e0f7fa; /* Light cyan background on hover */
-  }
-  
-  /* Player Styling */
-  .leaderboard-container li .rank {
-    font-weight: bold;
-    color: #007bff;
-    font-size: 1.5rem;
-  }
-  
-  .leaderboard-container li .player-name {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-    flex: 2; /* Ensures name takes up space before points */
-  }
-  
-  .leaderboard-container li .player-points {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #ff9800;
-  }
-  
-  .leaderboard-container li .player-level {
-    font-size: 1rem;
-    color: #4caf50;
-  }
-  
-  .leaderboard-container li .player-streak {
-    font-size: 1rem;
-    color: #f44336;
-  }
-  
-  /* Emojis for the leaderboard ranks */
-  .leaderboard-container li:nth-child(1) .rank::before {
-    content: "🏆";
-    margin-right: 8px;
-  }
-  
-  .leaderboard-container li:nth-child(2) .rank::before {
-    content: "🥈";
-    margin-right: 8px;
-  }
-  
-  .leaderboard-container li:nth-child(3) .rank::before {
-    content: "🥉";
-    margin-right: 8px;
-  }
-  
-  /* Add Icons or Emojis to Show Ranks */
-  .leaderboard-container li:nth-child(1) {
-    background-color: #ffd700; /* Gold color for first */
-  }
-  
-  .leaderboard-container li:nth-child(2) {
-    background-color: #c0c0c0; /* Silver color for second */
-  }
-  
-  .leaderboard-container li:nth-child(3) {
-    background-color: #cd7f32; /* Bronze color for third */
-  }
-  
-  /* Placeholder for Empty Leaderboard */
-  .leaderboard-container .empty-leaderboard {
-    color: #888;
-    font-style: italic;
-    font-size: 1.2rem;
-    margin-top: 20px;
-  }
-  
-  /* Button Styling */
-  .leaderboard-container .view-leaderboard-btn {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    margin-top: 30px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .leaderboard-container .view-leaderboard-btn:hover {
-    background-color: #0056b3;
-  }
-  
+  padding: 30px;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  border-radius: 15px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Title */
+.leaderboard-container h3 {
+  font-size: 2rem;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* List */
+.leaderboard-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.leaderboard-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, background-color 0.3s ease;
+}
+
+.leaderboard-item:hover {
+  transform: translateY(-5px);
+  background-color: #e0f7fa;
+}
+
+/* Player Info */
+.rank {
+  font-weight: bold;
+  color: #007bff;
+  font-size: 1.5rem;
+}
+
+.player-name {
+  flex: 2;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.player-points {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ff9800;
+}
+
+.player-level {
+  font-size: 1rem;
+  color: #4caf50;
+}
+
+.player-streak {
+  font-size: 1rem;
+  color: #f44336;
+}
+
+/* Top Rank Backgrounds */
+.rank-1 {
+  background-color: #ffd700; /* Gold */
+}
+
+.rank-2 {
+  background-color: #c0c0c0; /* Silver */
+}
+
+.rank-3 {
+  background-color: #cd7f32; /* Bronze */
+}
+
+/* Rank Emojis */
+.rank-1 .rank::before {
+  content: "🏆";
+  margin-right: 8px;
+}
+
+.rank-2 .rank::before {
+  content: "🥈";
+  margin-right: 8px;
+}
+
+.rank-3 .rank::before {
+  content: "🥉";
+  margin-right: 8px;
+}
+
+/* Empty state */
+.empty-leaderboard {
+  color: #888;
+  font-style: italic;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+/* Button (if needed later) */
+.view-leaderboard-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-top: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.view-leaderboard-btn:hover {
+  background-color: #0056b3;
+}

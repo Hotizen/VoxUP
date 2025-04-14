@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import './DragAndDropLesson.css';
-// import { shuffle } from 'lodash';
 
 const DragAndDropLesson = () => {
   const [draggedItem, setDraggedItem] = useState(null);
-  const [lessonIndex, setLessonIndex] = useState(0); // Track the current lesson
+  const [lessonIndex, setLessonIndex] = useState(0);
   const [message, setMessage] = useState('');
   const [shuffledItems, setShuffledItems] = useState([]);
 
   const lessons = [
     {
-      title: "Challenge 1: Hello World then Add",
+      title: "Challenge 1: Hello World",
       items: [
-        { id: 1, content: 'x = 5' },
+        // { id: 1, content: 'x = 5' },
         { id: 2, content: 'print("Hello, World!")' },
-        { id: 3, content: 'x = x + 1' },
+        // { id: 3, content: 'x = x + 1' },
         { id: 4, content: 'print(x)' },
       ],
       correctOrder: [
-        'x = 5',
+        // 'x = 5',
         'print("Hello, World!")',
-        'x = x + 1',
+        // 'x = x + 1',
         'print(x)',
       ],
     },
@@ -86,73 +85,60 @@ const DragAndDropLesson = () => {
     },
   ];
 
-  useEffect(() => {
-    const initialShuffledItems = shuffleItems(lessons[lessonIndex].items);
-    setShuffledItems(initialShuffledItems);
-  }, [lessonIndex]);
-
   const shuffleItems = (items) => {
-    let shuffled = [...items];
+    const shuffled = [...items];
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
   };
 
-  const handleDragStart = (e, itemId) => {
-    setDraggedItem(itemId);
+  useEffect(() => {
+    setShuffledItems(shuffleItems(lessons[lessonIndex].items));
+  }, [lessonIndex]);
+
+  const handleDragStart = (e, id) => {
+    setDraggedItem(id);
   };
 
   const handleDrop = (e, targetId) => {
     e.preventDefault();
-    const targetItem = shuffledItems.find((item) => item.id === targetId);
-    const draggedItemContent = shuffledItems.find((item) => item.id === draggedItem);
+    const fromItem = shuffledItems.find(item => item.id === draggedItem);
+    const toItem = shuffledItems.find(item => item.id === targetId);
 
-    const newItems = shuffledItems.map((item) => {
-      if (item.id === targetId) {
-        return { ...item, content: draggedItemContent.content };
-      }
-      if (item.id === draggedItem) {
-        return { ...item, content: targetItem.content };
-      }
+    const updated = shuffledItems.map(item => {
+      if (item.id === targetId) return { ...item, content: fromItem.content };
+      if (item.id === draggedItem) return { ...item, content: toItem.content };
       return item;
     });
 
-    setShuffledItems(newItems);
+    setShuffledItems(updated);
     setDraggedItem(null);
-    checkCompletion(newItems);
+    checkCompletion(updated);
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
+  const handleDragOver = (e) => e.preventDefault();
+
+  const checkCompletion = (items) => {
+    const currentOrder = items.map(item => item.content);
+    const correctOrder = lessons[lessonIndex].correctOrder;
+    setMessage(JSON.stringify(currentOrder) === JSON.stringify(correctOrder)
+      ? '✅ Correct Order! Great job!'
+      : '');
   };
 
-  const checkCompletion = (newItems) => {
-    const currentOrder = newItems.map((item) => item.content);
-    if (JSON.stringify(currentOrder) === JSON.stringify(lessons[lessonIndex].correctOrder)) {
-      setMessage('Correct Order! Great job!');
-    } else {
-      setMessage('');
-    }
+  const nextLesson = () => {
+    const nextIndex = (lessonIndex + 1) % lessons.length;
+    setLessonIndex(nextIndex);
+    setMessage('');
   };
-
-  const loadNextLesson = () => {
-    setLessonIndex((prevIndex) => {
-      const nextIndex = (prevIndex + 1) % lessons.length;
-      const newShuffledItems = shuffleItems(lessons[nextIndex].items);
-      setShuffledItems(newShuffledItems);
-      setMessage('');
-      return nextIndex;
-    });
-  };
-  
 
   return (
     <div className="drag-and-drop-container">
       <h3>{lessons[lessonIndex].title}</h3>
       <div className="drag-list">
-        {shuffledItems.map((item) => (
+        {shuffledItems.map(item => (
           <div
             key={item.id}
             className="draggable-item"
@@ -164,10 +150,9 @@ const DragAndDropLesson = () => {
             {item.content}
           </div>
         ))}
-      
       </div>
       {message && <div className="success-message">{message}</div>}
-      <button className="btn btn-success mt-3" onClick={loadNextLesson}>
+      <button className="next-btn" onClick={nextLesson}>
         Next Challenge
       </button>
     </div>

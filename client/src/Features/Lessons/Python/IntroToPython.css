@@ -1,52 +1,81 @@
 .intro-to-python {
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', sans-serif;
+  color: #2c3e50;
+  background-color: #f9f9f9;
+  line-height: 1.7;
+}
+
+.intro-to-python h1 {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  color: #0ea5e9;
+  text-align: center;
+}
+
+.intro-to-python h2 {
+  font-size: 1.8rem;
+  color: #0f172a;
+  margin: 25px 0 15px;
+  border-bottom: 2px solid #e0f2fe;
+  padding-bottom: 8px;
+}
+
+.intro-to-python p {
+  font-size: 1.1rem;
+  color: #475569;
+  margin-bottom: 20px;
+}
+
+.intro-to-python ul {
+  padding-left: 20px;
+}
+
+.intro-to-python ul li {
+  font-size: 1.05rem;
+  color: #374151;
+  margin-bottom: 10px;
+  list-style-type: disc;
+}
+
+.section {
+  margin-top: 30px;
+}
+
+.continue-button {
+  display: inline-block;
+  margin-top: 40px;
+  background-color: #0ea5e9;
+  color: white;
+  font-size: 1.1rem;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.continue-button:hover {
+  background-color: #0284c7;
+}
+
+@media (max-width: 768px) {
+  .intro-to-python {
     padding: 20px;
-    max-width: 900px;
-    margin: 0 auto;
-    font-family: 'Arial', sans-serif;
   }
-  
+
   .intro-to-python h1 {
-    font-size: 2.5rem;
-    color: #007bff;
-    margin-bottom: 20px;
+    font-size: 2rem;
   }
-  
+
   .intro-to-python h2 {
-    font-size: 1.8rem;
-    color: #333;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    font-size: 1.5rem;
   }
-  
-  .intro-to-python p {
-    font-size: 1.2rem;
-    color: #555;
-    line-height: 1.6;
+
+  .continue-button {
+    width: 100%;
+    text-align: center;
   }
-  
-  .intro-to-python ul {
-    padding-left: 20px;
-    margin-top: 10px;
-  }
-  
-  .intro-to-python ul li {
-    margin-bottom: 10px;
-    font-size: 1.1rem;
-    color: #444;
-  }
-  
-  .intro-to-python .btn {
-    margin-top: 20px;
-    background-color: #007bff;
-    color: white;
-    font-size: 1.1rem;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .intro-to-python .btn:hover {
-    background-color: #0056b3;
-  }
-  
+}

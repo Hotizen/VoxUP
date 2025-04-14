@@ -1,8 +1,7 @@
-/* Main container styling - Using specific class */
-.python-compiler-container {
+.compiler-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 2rem;
   background: linear-gradient(135deg, #2c3e50, #2e4c67);
   min-height: 100vh;
   color: #f5f5f5;
@@ -10,178 +9,130 @@
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
-/* Header styling - Scoped to compiler container */
-.python-compiler-container h2 {
-  font-size: 32px;
-  color: #ffffff;
-  margin-bottom: 25px;
+.compiler-container h2 {
+  font-size: 2rem;
   text-align: center;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 2rem;
   position: relative;
-  padding-bottom: 10px;
+  padding-bottom: 0.5rem;
 }
 
-.python-compiler-container h2::after {
+.compiler-container h2::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translateX(-50%);
   width: 80px;
   height: 3px;
   background: linear-gradient(to right, #3498db, #2ecc71);
   border-radius: 3px;
+  transform: translateX(-50%);
 }
 
-/* Code textarea styling - Scoped to compiler container */
-.python-compiler-container textarea {
-  width: 100%;
-  min-height: 300px;
-  padding: 16px;
-  background-color: #1e293b;
-  color: #f8f8f2;
-  border: 1px solid #3498db;
-  border-radius: 12px;
+.code-wrapper {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+}
+
+.code-suggestion,
+.code-textarea {
   font-family: 'Consolas', 'Monaco', monospace;
   font-size: 16px;
+  line-height: 1.5;
+  width: 100%;
+  height: 300px;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #4A90E2;
+  background: #0a192f;
+  color: #fff;
   resize: vertical;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.1);
-  outline: none;
-  transition: all 0.3s ease;
 }
 
-.python-compiler-container textarea:focus {
-  border-color: #00bcd4;
-  box-shadow: 0 0 0 2px rgba(0, 188, 212, 0.25), 0 4px 12px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px);
-}
-
-.python-compiler-container textarea::placeholder {
-  color: #6c7a89;
-}
-
-/* Button container */
-.compiler-button-container {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 25px;
-  justify-content: center;
-}
-
-/* Button styling - Using specific class */
-.compiler-button {
-  padding: 14px 24px;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  transition: all 0.3s ease-in-out;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: white;
-  min-width: 160px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.compiler-button::before {
-  content: '';
+.code-suggestion {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-  z-index: -1;
+  color: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  z-index: 1;
 }
 
-.compiler-button:hover::before {
-  transform: translateX(0);
+.code-textarea {
+  position: relative;
+  background: transparent;
+  z-index: 2;
 }
 
-.compiler-button:disabled {
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none !important;
-  box-shadow: none;
 }
 
-/* Speak button */
-.speak-button {
+.btn.mic {
   background: linear-gradient(135deg, #3498db, #2980b9);
 }
 
-.speak-button:hover:not(:disabled) {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.speak-button:active:not(:disabled) {
-  transform: translateY(1px);
-}
-
-/* Run button */
-.run-button {
+.btn.run {
   background: linear-gradient(135deg, #2ecc71, #27ae60);
 }
 
-.run-button:hover:not(:disabled) {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+.btn.clear {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
 }
 
-.run-button:active:not(:disabled) {
-  transform: translateY(1px);
+.output-section {
+  margin-top: 2rem;
 }
 
-/* Output section */
-.compiler-output {
-  margin-top: 25px;
+.output-section h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
 }
 
-.compiler-output h3 {
-  font-size: 22px;
-  color: #ffffff;
-  margin-bottom: 15px;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.compiler-output h3::before {
-  content: '📋';
-  font-size: 20px;
-}
-
-/* Output pre formatting */
-.compiler-output pre {
-  width: 100%;
-  min-height: 150px;
-  padding: 16px;
+.output-section pre {
   background-color: #1e293b;
   border: 1px solid #27ae60;
   border-radius: 12px;
-  color: #f8f8f2;
+  padding: 1rem;
   white-space: pre-wrap;
-  font-family: 'Consolas', 'Monaco', monospace;
+  color: #f8f8f2;
   font-size: 14px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  overflow-x: auto;
+  min-height: 150px;
   position: relative;
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.compiler-output pre:empty::before {
+.output-section pre:empty::before {
   content: 'Your output will appear here...';
   color: #6c7a89;
   position: absolute;
@@ -190,48 +141,18 @@
   transform: translate(-50%, -50%);
 }
 
-/* Responsive adjustments */
+/* Responsive */
 @media (max-width: 768px) {
-  .compiler-button-container {
+  .button-group {
     flex-direction: column;
-    align-items: stretch;
   }
-  
-  .python-compiler-container textarea {
-    min-height: 200px;
-  }
-  
-  .compiler-button {
+
+  .btn {
     width: 100%;
   }
-}
 
-.code-container {
-  position: relative;
-  width: 100%;
-  max-width: 800px;
-}
-
-.code-textarea, .code-suggestion {
-  font-family: monospace;
-  font-size: 16px;
-  line-height: 1.5;
-  width: 100%;
-  height: 200px;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #4A90E2;
-  background: #0A192F;
-  color: #ffffff;
-  resize: none;
-}
-
-.code-suggestion {
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: rgba(255, 255, 255, 0.30); /* Dimmed white text */
-  pointer-events: none;
-  white-space: pre-wrap;
-  overflow-wrap: break-word;
+  .code-textarea,
+  .code-suggestion {
+    height: 200px;
+  }
 }

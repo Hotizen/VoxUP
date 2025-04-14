@@ -1,32 +1,98 @@
-/* src/pages/LessonScreen.css */
 .lesson-screen {
     padding: 20px;
     font-family: 'Arial', sans-serif;
-  }
-  
-  textarea {
+    max-width: 1200px; /* Optional: Limit max width for better readability on wide screens */
+    margin: 0 auto; /* Center content */
+}
+
+.code-editor {
+    height: 400px;
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow to make the editor stand out */
+}
+
+textarea {
     width: 100%;
     height: 200px;
     margin: 20px 0;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
-  button {
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font for code */
+    font-size: 1rem; /* Improved readability */
+    resize: vertical; /* Allow vertical resizing */
+}
+
+button {
     background-color: #007bff;
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .output {
+    transition: background-color 0.3s ease; /* Smooth transition effect for hover */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.output {
     margin-top: 20px;
     padding: 10px;
-    background: #f0f0f0;
+    background-color: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font for output */
+    white-space: pre-wrap; /* Ensure output content wraps correctly */
+}
+.lesson-screen {
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  max-width: 1200px; /* Optional: Limit max width for better readability on wide screens */
+  margin: 0 auto; /* Center content */
+}
+
+.code-editor {
+  height: 400px;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow to make the editor stand out */
+}
+
+textarea {
+  width: 100%;
+  height: 200px;
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: 'Courier New', Courier, monospace; /* Monospaced font for code */
+  font-size: 1rem; /* Improved readability */
+  resize: vertical; /* Allow vertical resizing */
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition effect for hover */
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.output {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: 'Courier New', Courier, monospace; /* Monospaced font for output */
+  white-space: pre-wrap; /* Ensure output content wraps correctly */
+}

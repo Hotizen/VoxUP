@@ -1,15 +1,17 @@
-/* Ensure proper padding and margin for the container */
+/* Container for the entire grid */
 .lesson-grid {
   padding: 2rem 1rem;
   margin: 0 auto;
-  max-width: 1200px; /* Limit the max width for better control */
+  max-width: 1200px; /* Limit max width for better control */
+  box-sizing: border-box; /* Include padding in width calculations */
 }
 
-/* Row container for lessons */
+/* Row container for lessons, flexbox for responsive layout */
 .lesson-grid .row {
   display: flex;
+  flex-wrap: wrap; /* Allow wrapping of items on smaller screens */
+  gap: 20px; /* Space between columns */
   justify-content: space-between;
-  gap: 20px;
 }
 
 /* Column layout for each lesson */
@@ -17,38 +19,53 @@
 .lesson-grid .col-md-6,
 .lesson-grid .col-sm-12 {
   flex: 1;
-  min-width: 300px; /* Minimum width for each column */
-  max-width: 33%; /* Ensures three columns per row on large screens */
+  min-width: 280px; /* Minimum width to prevent overcrowding */
+  max-width: 33%; /* Ensure three columns on larger screens */
   padding: 15px;
+  box-sizing: border-box; /* Make sure padding is included in width */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Make sure all lesson cards have consistent spacing and alignment */
+/* Card styling */
 .lesson-card {
-  background: #fff;
+  background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  height: 100%; /* Ensure the card takes up full height of its column */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Ensure card takes up full height of its column */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden; /* Prevent content from overflowing */
 }
 
+/* Hover effect for card */
 .lesson-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Title styling */
 .lesson-card h3 {
   font-size: 1.5rem;
+  font-weight: 600;
   margin-bottom: 0.5rem;
+  color: #333;
+  transition: color 0.3s ease;
 }
 
+/* Description styling */
 .lesson-card p {
   font-size: 1rem;
   color: #555;
   margin-bottom: 1rem;
+  line-height: 1.5;
+  transition: color 0.3s ease;
 }
 
+/* Button styling */
 .lesson-card button {
   background-color: #007bff;
   color: white;
@@ -56,15 +73,24 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* Button hover effect */
 .lesson-card button:hover {
   background-color: #0056b3;
+  transform: translateY(-2px); /* Lift button on hover */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 992px) {
+  .lesson-grid .col-lg-4 {
+    max-width: 50%; /* Two columns on medium screens */
+  }
 }
 
 @media (max-width: 768px) {
-  /* For smaller screens, adjust the layout to single column */
+  /* Single column layout on small screens */
   .lesson-grid .col-lg-4,
   .lesson-grid .col-md-6,
   .lesson-grid .col-sm-12 {

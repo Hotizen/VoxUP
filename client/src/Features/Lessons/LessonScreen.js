@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import CodeEditor from './CodeEditor'; // Import Monaco editor component
 import './LessonScreen.css';
 
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const LessonScreen = () => {
   const { lessonTitle } = useParams();
   const [code, setCode] = useState('');
@@ -10,7 +12,7 @@ const LessonScreen = () => {
 
   const handleRunCode = async () => {
     try {
-      const response = await fetch('${API_BASE_URL}/run-python', {
+      const response = await fetch(`${API_BASE_URL}/run-python`, {  // Fix template string
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code }),
@@ -22,19 +24,17 @@ const LessonScreen = () => {
     }
   };
 
-  // Optional: Fetch lesson content based on lessonTitle (if applicable)
   useEffect(() => {
-    // Code to fetch lesson content based on lessonTitle
-    // This could be used to pre-populate the code editor with lesson code
-  }, [lessonTitle]); // Dependency array for useEffect
+    // Fetch lesson content based on lessonTitle (optional for pre-population)
+    // Example: Fetch lesson data from an API or database and pre-fill the code editor
+  }, [lessonTitle]); // Dependency array ensures the effect runs when lessonTitle changes
 
   return (
     <div className="lesson-screen">
       <h1>{lessonTitle}</h1>
       <p>Learn by practicing Python programming.</p>
 
-      {/* Use CodeEditor component for a more advanced editing experience */}
-      <CodeEditor value={code} onChange={setCode} />
+      <CodeEditor value={code} onChange={setCode} /> {/* Monaco editor */}
 
       <button onClick={handleRunCode}>Run Code</button>
 
