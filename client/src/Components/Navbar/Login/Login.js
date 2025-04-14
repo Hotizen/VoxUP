@@ -3,6 +3,7 @@ import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -10,22 +11,24 @@ const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
 
   const handleLogin = async () => {
-    if (!username || !password) {
+    const trimmedUsername = username.trim();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedUsername || !trimmedPassword) {
       alert('Please enter both username and password.');
       return;
     }
 
     try {
-      const response = await axios.post('${API_BASE_URL}/auth/login', {
-        username,
-        password,
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, {
+        username: trimmedUsername,
+        password: trimmedPassword,
       });
 
       alert(response.data.message);
 
-      // ✅ Store token and username
       localStorage.setItem('token', response.data.token);
-      localStorage.setItem('username', username);
+      localStorage.setItem('username', trimmedUsername);
 
       navigate('/personal-home');
     } catch (error) {
@@ -35,20 +38,23 @@ const Login = () => {
   };
 
   const handleSignUp = async () => {
-    if (!username || !password) {
+    const trimmedUsername = username.trim();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedUsername || !trimmedPassword) {
       alert('Please enter both username and password.');
       return;
     }
 
     try {
-      const response = await axios.post('${API_BASE_URL}/auth/register', {
-        username,
-        password,
+      const response = await axios.post(`${API_BASE_URL}/auth/register`, {
+        username: trimmedUsername,
+        password: trimmedPassword,
       });
 
       alert(response.data.message);
 
-      // Automatically log in after sign up
+      // Auto-login after successful signup
       await handleLogin();
     } catch (error) {
       console.error('Signup error:', error);
@@ -81,22 +87,41 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="main-button" onClick={isSignUp ? handleSignUp : handleLogin}>
+        <button
+          className="main-button"
+          onClick={isSignUp ? handleSignUp : handleLogin}
+          disabled={!username.trim() || !password.trim()}
+        >
           {isSignUp ? 'Sign Up' : 'Login'}
         </button>
 
         <div className="social-login">
           <p>Or log in with:</p>
           <div className="social-icons">
-            <i className="fab fa-google" title="Google" onClick={() => handleSocialLogin('Google')}></i>
-            <i className="fab fa-facebook" title="Facebook" onClick={() => handleSocialLogin('Facebook')}></i>
-            <i className="fab fa-twitter" title="Twitter" onClick={() => handleSocialLogin('Twitter')}></i>
+            <i
+              className="fab fa-google"
+              title="Google"
+              onClick={() => handleSocialLogin('Google')}
+            ></i>
+            <i
+              className="fab fa-facebook"
+              title="Facebook"
+              onClick={() => handleSocialLogin('Facebook')}
+            ></i>
+            <i
+              className="fab fa-twitter"
+              title="Twitter"
+              onClick={() => handleSocialLogin('Twitter')}
+            ></i>
           </div>
         </div>
 
         <p className="toggle-mode">
           {isSignUp ? 'Already have an account?' : 'Don’t have an account?'}{' '}
-          <span onClick={() => setIsSignUp(!isSignUp)}>
+          <span
+            id={isSignUp ? 'switch-to-login' : 'switch-to-signup'}
+            onClick={() => setIsSignUp(!isSignUp)}
+          >
             {isSignUp ? 'Login' : 'Sign Up'}
           </span>
         </p>

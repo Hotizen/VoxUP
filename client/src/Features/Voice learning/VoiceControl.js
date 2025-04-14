@@ -5,24 +5,14 @@ import './VoiceControl.css';
 
 const VoiceControl = () => {
   const [isListening, setIsListening] = useState(false);
-  const [currentPage, setCurrentPage] = useState('home');
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigate = useNavigate();
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = SpeechRecognition ? new SpeechRecognition() : null;
-  const [isPopupOpen, setIsPopupOpen] = useState(false); // Manage popup state
-
-  useEffect(() => {
-    // Cleanup function to stop recognition when component unmounts
-    return () => {
-      if (recognition && isListening) {
-        recognition.stop();
-      }
-    };
-  }, [isListening]);
 
   useEffect(() => {
     if (!recognition) return;
-    
+
     recognition.continuous = true;
     recognition.interimResults = false;
     recognition.lang = 'en-US';
@@ -37,178 +27,95 @@ const VoiceControl = () => {
     };
 
     recognition.onend = () => {
-      if (isListening) {
-        recognition.start(); // Auto restart when stopped
-      }
+      if (isListening) recognition.start();
     };
-  }, [recognition, isListening]);
+  }, [isListening]);
+
+  const speak = (text) => {
+    const msg = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(msg);
+  };
 
   const handleVoiceCommand = (command) => {
-    console.log("Recognized Command:", command);
+    console.log("Voice Command:", command);
 
-    // ✅ General Navigation Commands
-    if (command.includes('go to home') || command.includes('open home')) {
-      navigate('/');
-      setCurrentPage('home');
-    } else if (command.includes('go to about') || command.includes('open about')) {
-      navigate('/about');
-      setCurrentPage('about');
-    } else if (command.includes('go to progress') || command.includes('view progress')) {
-      navigate('/progress');
-      setCurrentPage('progress');
-    } else if (command.includes('go to leaderboard') || command.includes('view leaderboard')) {
-      navigate('/leaderboard');
-      setCurrentPage('leaderboard');
-    } else if (command.includes('login') || command.includes('sign in')) {
-      navigate('/login');
-      setCurrentPage('login');
-    } else if (command.includes('go back')) {
-      window.history.back(); // Navigate to the previous page
-    } else if (command.includes('go forward')) {
-      window.history.forward(); // Navigate to the next page
+    // --- Navigation
+    if (command.includes("go to home")) navigate("/");
+    else if (command.includes("open about")|| command.includes("go to about")) navigate("/about");
+    else if (command.includes("go to progress")|| command.includes("show progress")) navigate("/progress");
+    else if (command.includes("go to leaderboard")|| command.includes("show leaderboard")) navigate("/leaderboard");
+    else if (command.includes("go to profile")) navigate("/profile");
+    else if (command.includes("go to personal home")) navigate("/personal-home");
+    else if (command.includes("go to compiler")) navigate("/compiler");
+    else if (command.includes("go to challenges")) navigate("/challenges");
+    else if (command.includes("go to quiz") || command.includes("start quiz")) navigate("/quiz");
+    else if (command.includes("go back")) window.history.back();
+    else if (command.includes("go forward")) window.history.forward();
+
+    // --- Auth
+    else if (command.includes("login")|| command.includes("sign in")) {
+      navigate("/login");
+      setTimeout(() => {
+        // Make sure login form shows
+        document.querySelector("#switch-to-login")?.click();
+      }, 500);
+    }
+    else if (command.includes("sign up") || command.includes("register") ) {
+      navigate("/login");
+      setTimeout(() => {
+        // Make sure signup form shows
+        document.querySelector("#switch-to-signup")?.click();
+      }, 500);
+    }
+    
+    else if (command.includes("logout")) {
+      localStorage.clear();
+      navigate("/login");
+      speak("You have been logged out");
     }
 
-    // ✅ Lesson Controls
-    else if (command.includes('start lesson') || command.includes('explore lessons')) {
-      navigate('/lessons');
-      setCurrentPage('lessons');
-    } else if (command.includes('next lesson')) {
-      navigate('/next-lesson'); // Adjust the route accordingly
-      setCurrentPage('next-lesson');
-    } else if (command.includes('previous lesson')) {
-      navigate('/previous-lesson'); // Adjust the route accordingly
-      setCurrentPage('previous-lesson');
-    } else if (command.includes('pause lesson')) {
-      document.getElementById('lesson-video')?.pause();
-    } else if (command.includes('resume lesson')) {
-      document.getElementById('lesson-video')?.play();
-    }
+    // --- Quiz
+    else if (command.includes("get started") || command.includes("find what's right")) navigate("/quiz");
+    else if (command.includes("submit answer")) document.getElementById("quiz-submit")?.click();
+    else if (command.includes("select option 1")) document.querySelectorAll(".quiz-option-btn")[0]?.click();
+    else if (command.includes("select option 2")) document.querySelectorAll(".quiz-option-btn")[1]?.click();
+    else if (command.includes("select option 3")) document.querySelectorAll(".quiz-option-btn")[2]?.click();
 
-    // ✅ Coding Controls (Compiler)
-    else if (command.includes('open compiler')) {
-      navigate('/compiler');
-      setCurrentPage('compiler');
-    } else if (command.includes('run code')) {
-      const code = document.getElementById('monaco-editor')?.getValue();
-      fetch('${API_BASE_URL}/run-python', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code }),
-      })
-      .then((response) => response.json())
-      .catch(() => {});
-    } else if (command.includes('clear code')) {
-      document.getElementById('monaco-editor')?.setValue('');
-    } else if (command.includes('insert template')) {
-      document.getElementById('monaco-editor')?.setValue('def main():\n    print("Hello, World!")\n\nmain()');
+    // --- Compiler
+    else if (command.includes("run code")) {
+      document.getElementById("run-button")?.click();
+    } else if (command.includes("clear code")) {
+      document.getElementById("clear-button")?.click();
     }
+    
+    
 
-    // ✅ Quiz and Challenges
-    else if (command.includes('take quiz') || command.includes('start quiz')) {
-      navigate('/quiz');
-      setCurrentPage('quiz');
-    } else if (command.includes('submit answer')) {
-      document.getElementById('quiz-submit')?.click();
-    } else if (command.includes('show hint')) {
-      const hintElement = document.getElementById('quiz-hint');
-      if (hintElement) {
-        hintElement.style.display = 'block';
-      }
-    } else if (command.includes('next question')) {
-      navigate('/next-question');
-    } else if (command.includes('previous question')) {
-      navigate('/previous-question');
-    }
+    // --- Support
+    // else if (command.includes("contact support") || command.includes("open contact")) navigate("/contact");
 
-    // ✅ Profile and Progress Tracking
-    else if (command.includes('open profile') || command.includes('view profile')) {
-      navigate('/profile');
-      setCurrentPage('profile');
-    } else if (command.includes('view achievements')) {
-      navigate('/achievements');
-      setCurrentPage('achievements');
-    }
+    // --- Voice Popup
+    else if (command.includes("show commands")) setIsPopupOpen(true);
+    // else if (command.includes("stop listening") || command.includes("disable voice mode")) toggleVoiceControl();
 
-    // ✅ Login Page Commands
-    else if (command.startsWith('enter username')) {
-      const username = command.replace('enter username', '').trim();
-      const usernameInput = document.getElementById('username');
-      if (usernameInput) {
-        usernameInput.value = username;
-        usernameInput.dispatchEvent(new Event('input', { bubbles: true }));
-      }
-    } else if (command.startsWith('enter password')) {
-      const password = command.replace('enter password', '').trim();
-      const passwordInput = document.getElementById('password');
-      if (passwordInput) {
-        passwordInput.value = password;
-        passwordInput.dispatchEvent(new Event('input', { bubbles: true }));
-      }
-    } else if (command.includes('click login')) {
-      document.getElementById('login-button')?.click();
-    } else if (command.includes('continue as guest')) {
-      document.getElementById('guest-button')?.click();
-    } else if (command.includes('sign up')) {
-      navigate('/signup');
-    }
-
-    // ✅ Enhanced Quiz Commands
-    else if (command.includes('select option 1')) {
-      document.querySelectorAll('.quiz-option-btn')[0]?.click();
-    } else if (command.includes('select option 2')) {
-      document.querySelectorAll('.quiz-option-btn')[1]?.click();
-    } else if (command.includes('select option 3')) {
-      document.querySelectorAll('.quiz-option-btn')[2]?.click();
-    } else if (command.includes('finish quiz')) {
-      navigate('/lessons'); // Redirects after finishing the quiz
-    }
-
-    // ✅ Stop Voice Mode
-    else if (command.includes('stop listening') || command.includes('disable voice mode')) {
-      toggleVoiceControl();
-    }
+    // --- Fun
+    else if (command.includes("motivate me")) speak("You are doing great! Keep going!");
+    else if (command.includes("how many points")) speak(`You have ${localStorage.getItem("points") || 0} points`);
+    else if (command.includes("which badge")) speak(`Your recent badge is ${localStorage.getItem("badge") || "none"}`);
   };
 
   const toggleVoiceControl = () => {
-    if (!recognition) {
-      console.error('Speech Recognition not supported in this browser');
-      return;
-    }
-    
-    if (isListening) {
-      recognition.stop();
-    } else {
-      recognition.start();
-    }
+    if (!recognition) return console.error("No such Command");
+    isListening ? recognition.stop() : recognition.start();
     setIsListening(!isListening);
   };
 
-  // Create a root div for the portal if it doesn't exist
-  useEffect(() => {
-    let portalRoot = document.getElementById('voice-control-portal');
-    if (!portalRoot) {
-      portalRoot = document.createElement('div');
-      portalRoot.id = 'voice-control-portal';
-      document.body.appendChild(portalRoot);
-    }
-    
-    return () => {
-      // Clean up if component unmounts and portal is no longer needed
-      if (portalRoot && portalRoot.childNodes.length === 0) {
-        document.body.removeChild(portalRoot);
-      }
-    };
-  }, []);
-
   return (
     <div className="voice-controls-container">
-      {/* Popup Button */}
       <button className="info-button" onClick={() => setIsPopupOpen(true)}>📖</button>
-      {isPopupOpen && <VoiceCommandsPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />}
-
       <button className="voice-control-btn" onClick={toggleVoiceControl}>
-        {isListening ? 'Stop Voice Mode' : 'Start Voice Mode'}
+        {isListening ? "Stop Voice Mode" : "Start Voice Mode"}
       </button>
+      {isPopupOpen && <VoiceCommandsPopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />}
     </div>
   );
 };

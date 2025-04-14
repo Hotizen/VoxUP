@@ -1,44 +1,49 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import "./Compiler.css";
+
+const API_BASE_URL = "http://localhost:5000"; // ✅ Replace with your backend URL
 
 const Compiler = () => {
   const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
   const [isListening, setIsListening] = useState(false);
-  const [suggestion, setSuggestion] = useState(""); // AI Code Suggestion
-  const [darkMode, setDarkMode] = useState(false); // Dark mode toggle
-  const textareaRef = useRef(null); // Reference to textarea for autocomplete placement
+  const [suggestion, setSuggestion] = useState("");
+  const [darkMode, setDarkMode] = useState(false);
+  const textareaRef = useRef(null);
 
-  // Fetch AI-powered autocomplete suggestions
+  // 🧠 AI Autocomplete
   const fetchAutocomplete = async (inputCode) => {
     try {
-      const response = await axios.post("${API_BASE_URL}/autocomplete", {
+      const { data } = await axios.post(`${API_BASE_URL}/autocomplete`, {
         code: inputCode,
       });
-      setSuggestion(response.data.suggestion);
+      setSuggestion(data.suggestion);
     } catch (error) {
       console.error("AI Autocomplete Error:", error);
-      setSuggestion(""); // Clear suggestion on error
+      setSuggestion("");
     }
   };
 
-  // Run Python Code
+  // ▶️ Run Python code
   const runCode = async () => {
     try {
-      console.log("Sending Code:", code);
-      const response = await axios.post("${API_BASE_URL}/run-python", {
-        code,
-      });
-      setOutput(response.data.result);
-      speakOutput(response.data.result); // 🔹 Read output aloud after execution
+      const { data } = await axios.post(`${API_BASE_URL}/run-python`, { code });
+      setOutput(data.result);
+      // speakOutput(data.result); // optional
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Run Code Error:", error);
       setOutput("An error occurred while running the code");
     }
   };
 
-  // Speech-to-Code Function
+  // 🧹 Clear code
+  const clearCode = () => {
+    setCode("");
+    setSuggestion("");
+  };
+
+  // 🎤 Convert speech to code
   const startListening = () => {
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
     recognition.lang = "en-US";
@@ -49,12 +54,11 @@ const Compiler = () => {
 
     recognition.onresult = async (event) => {
       const transcript = event.results[0][0].transcript;
-      console.log("User said:", transcript);
-
       try {
-        // Convert speech to AI-generated code
-        const response = await axios.post("${API_BASE_URL}/generate-code", { prompt: transcript });
-        setCode((prev) => prev + (prev ? "\n" : "") + response.data.code);
+        const { data } = await axios.post(`${API_BASE_URL}/generate-code`, {
+          prompt: transcript,
+        });
+        setCode((prev) => prev + (prev ? "\n" : "") + data.code);
       } catch (error) {
         console.error("AI Code Generation Error:", error);
       }
@@ -62,15 +66,13 @@ const Compiler = () => {
 
     recognition.onerror = (event) => {
       console.error("Speech Recognition Error:", event.error);
-      alert("Speech recognition error: " + event.error); // 🔹 Show error alert
+      alert("Speech recognition error: " + event.error);
     };
 
-    recognition.onend = () => {
-      setIsListening(false);
-    };
+    recognition.onend = () => setIsListening(false);
   };
 
-  // Text-to-Speech Function (Reads Output)
+  // 🔊 Speak output (optional)
   const speakOutput = (text) => {
     if (!text) return;
     const synth = window.speechSynthesis;
@@ -78,19 +80,18 @@ const Compiler = () => {
     synth.speak(utterance);
   };
 
-  // Handle Code Input Changes
+  // 📝 Handle code changes
   const handleCodeChange = (e) => {
     const newCode = e.target.value;
     setCode(newCode);
-
     if (newCode.trim()) {
-      fetchAutocomplete(newCode); // Fetch AI suggestions
+      fetchAutocomplete(newCode);
     } else {
-      setSuggestion(""); // Clear suggestion if input is empty
+      setSuggestion("");
     }
   };
 
-  // Accept AI Suggestion when "Tab" is Pressed
+  // 🪄 Accept AI suggestion
   const acceptSuggestion = (e) => {
     if (e.key === "Tab" && suggestion) {
       e.preventDefault();
@@ -103,8 +104,10 @@ const Compiler = () => {
     <div className={`python-compiler-container ${darkMode ? "dark-mode" : ""}`}>
       <h2>Python Compiler</h2>
 
-      <div style={{ position: "relative" }}>
+      <div className="code-container">
+        <pre className="code-suggestion">{code + suggestion}</pre>
         <textarea
+          id="code-editor"
           ref={textareaRef}
           value={code}
           onChange={handleCodeChange}
@@ -114,32 +117,31 @@ const Compiler = () => {
           cols={50}
           className="code-textarea"
         />
-        
-        {/* Code Container */}
-        <div className="code-container">
-          {/* AI Suggestion Overlay (Positioned Under Input) */}
-          <pre className="code-suggestion">{code + suggestion}</pre>
-
-          {/* User Input */}
-          <textarea
-            ref={textareaRef}
-            value={code}
-            onChange={handleCodeChange}
-            onKeyDown={acceptSuggestion}
-            placeholder="Write your Python code here..."
-            className="code-textarea"
-          />
-        </div>
-
       </div>
 
-      <br />
       <div className="compiler-button-container">
-        <button className="compiler-button speak-button" onClick={startListening} disabled={isListening}>
+        <button
+          className="compiler-button speak-button"
+          onClick={startListening}
+          disabled={isListening}
+        >
           🎤 {isListening ? "Listening..." : "Speak Code"}
         </button>
-        <button className="compiler-button run-button" onClick={runCode}>
+
+        <button
+          id="run-button"
+          className="compiler-button run-button"
+          onClick={runCode}
+        >
           ▶️ Run Code
+        </button>
+
+        <button
+          id="clear-button"
+          className="compiler-button clear-button"
+          onClick={clearCode}
+        >
+          🧹 Clear Code
         </button>
       </div>
 
