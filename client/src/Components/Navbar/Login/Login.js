@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+console.log("API Base URL:", API_BASE_URL);
 
 const Login = () => {
   const navigate = useNavigate();
