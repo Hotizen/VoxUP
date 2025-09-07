@@ -9,11 +9,15 @@ const app = express();
 const authRoutes = require("./auth");
 const connectDB = require("./db");
 const progressRoutes = require("./progress"); // ✅ Import progress routes
+const lessonRoutes = require("./routes/lessons");
+const achievementRoutes = require("./routes/achievements");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/auth", authRoutes);
 app.use("/progress", progressRoutes); // ✅ Mount progress routes
+app.use("/lessons", lessonRoutes);
+app.use("/achievements", achievementRoutes);
 
 // ✅ Correct model name from /list-models response
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -94,24 +98,38 @@ app.post("/autocomplete", async (req, res) => {
   const userCode = req.body.code;
 
   try {
-    console.log("🔍 Making request to:", `https://generativelanguage.googleapis.com/v1/models/${MODEL_NAME}:generateContent?key=${GEMINI_API_KEY}`);
-
-    const geminiResponse = await axios.post(
-      `https://generativelanguage.googleapis.com/v1/models/${MODEL_NAME}:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        contents: [{ role: "user", parts: [{ text: `Complete this Python code: ${userCode}` }] }],
-      }
-    );
-
-    const aiSuggestion =
-      geminiResponse.data?.candidates?.[0]?.content?.parts?.[0]?.text || "No completion available.";
-
-    res.json({ suggestion: aiSuggestion.trim() });
+    // Simple local completion for now (replace with Hugging Face API)
+    const suggestion = generateLocalCompletion(userCode);
+    res.json({ suggestion });
   } catch (error) {
-    console.error("❌ AI Completion Error:", error.response?.data || error.message);
+    console.error("❌ AI Completion Error:", error.message);
     res.status(500).json({ error: "AI completion failed" });
   }
 });
+
+// Local completion function (replace with AI service)
+function generateLocalCompletion(code) {
+  const lines = code.split('\n');
+  const lastLine = lines[lines.length - 1].trim();
+  
+  if (lastLine.startsWith('print(')) {
+    return '"Hello, World!")';
+  }
+  
+  if (lastLine.startsWith('for ') && lastLine.includes(' in ')) {
+    return '\n    print(item)';
+  }
+  
+  if (lastLine.startsWith('if ') && lastLine.endsWith(':')) {
+    return '\n    # Add your code here\n    pass';
+  }
+  
+  if (lastLine.startsWith('def ') && lastLine.endsWith(':')) {
+    return '\n    # Add your function code here\n    return None';
+  }
+  
+  return '';
+}
 
 // ✅ API to list available models
 app.get("/list-models", async (req, res) => {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Login from './Components/Navbar/Login/Login';
 import HomeScreen from './Components/Homescreen/HomeScreen'; // HomeScreen includes HeroSection
 import Profile from './Components/Profile/Profile';
@@ -23,43 +24,68 @@ import Challenges from "./Features/Lessons/Python/Challenges";
 import DragAndDropLesson from './Features/Lessons/Python/DragAndDropLesson';
 import CodeComplete from './Features/Lessons/Python/CodeComplete';
 import PersonalHome from './Components/Homescreen/PersonalHome'; // ✅ Import personalized home
+import ModernNavbar from './components/layout/ModernNavbar';
+import AIChatBot from './components/ai/AIChatBot';
+import AchievementPopup from './components/gamification/AchievementPopup';
+import { useGameification } from './hooks/useGameification';
 
 const App = () => {
   const [feedback, setFeedback] = useState('');
+  const { showAchievement, closeAchievementPopup } = useGameification();
 
   return (
-    <Router>
-      <Navbar />
-      <VoiceControl setFeedback={setFeedback} />
-      <Routes>
-        <Route path="/" element={<HomeScreen />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/lessons" element={<LessonGrid />} />
-        {/* <Route path="/lesson-detail/:id" element={<LessonDetail />} /> */}
-        <Route path="/lesson-screen/:lessonTitle" element={<LessonScreen />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/quiz" element={<Quiz />} />
-        <Route path="/three-column-section" element={<ThreeColumnSection />} />
-        <Route path="/voice-learning" element={<VoiceLearning />} />
-        <Route path="/progress" element={<ProgressPage />} />
-        <Route path="/gamified-learning" element={<GamifiedLearning />} />
-        <Route path="/personalized-lessons" element={<PersonalizedLessons />} />
-        <Route path="/python-basics" element={<PythonBasics />} />
-        <Route path="/compiler" element={<Compiler />} />
-        <Route path="/challenges" element={<Challenges />} />
-        <Route path="/drag-and-drop" element={<DragAndDropLesson />} />
-        <Route path="/code-complete" element={<CodeComplete />} />
-        <Route path="/intro-to-python" element={<IntroToPython />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
-        <Route
-          path="/personal-home"
-          element={
-            localStorage.getItem('token') ? <PersonalHome /> : <Navigate to="/login" />
-          }
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <Router>
+        <ModernNavbar />
+        <VoiceControl setFeedback={setFeedback} />
+        <AIChatBot />
+        
+        <Routes>
+          <Route path="/" element={<HomeScreen />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/lessons" element={<LessonGrid />} />
+          <Route path="/lesson-screen/:lessonTitle" element={<LessonScreen />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/three-column-section" element={<ThreeColumnSection />} />
+          <Route path="/voice-learning" element={<VoiceLearning />} />
+          <Route path="/progress" element={<ProgressPage />} />
+          <Route path="/gamified-learning" element={<GamifiedLearning />} />
+          <Route path="/personalized-lessons" element={<PersonalizedLessons />} />
+          <Route path="/python-basics" element={<PythonBasics />} />
+          <Route path="/compiler" element={<Compiler />} />
+          <Route path="/challenges" element={<Challenges />} />
+          <Route path="/drag-and-drop" element={<DragAndDropLesson />} />
+          <Route path="/code-complete" element={<CodeComplete />} />
+          <Route path="/intro-to-python" element={<IntroToPython />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route
+            path="/personal-home"
+            element={
+              localStorage.getItem('token') ? <PersonalHome /> : <Navigate to="/login" />
+            }
+          />
+        </Routes>
+        
+        <AchievementPopup 
+          achievement={showAchievement}
+          isVisible={!!showAchievement}
+          onClose={closeAchievementPopup}
         />
-      </Routes>
-    </Router>
+        
+        <Toaster 
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#363636',
+              color: '#fff',
+            },
+          }}
+        />
+      </Router>
+    </div>
   );
 };
 
